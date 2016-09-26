@@ -55,7 +55,7 @@ public class Game {
 
 			return output;
 		} catch (ParseException e) {
-			e.printStackTrace();
+			System.err.println("Unable to parse Game from JSON");
 		}
 
 		return output; 

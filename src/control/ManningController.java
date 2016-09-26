@@ -17,8 +17,11 @@ public class ManningController {
 
 	public void run () {
 		while (true) {
-			gameList = GameList.fromJSON(netControl.get("http://www.nfl.com/liveupdate/scorestrip/ss.json"));
-			taui.refreshOverview();
+			GameList newGameList = GameList.fromJSON(netControl.get("http://www.nfl.com/liveupdate/scorestrip/ss.json"));
+			if (newGameList != null) {
+				gameList = newGameList;
+				taui.refreshOverview();
+			}
 
 			try {
 				Thread.sleep(1000);

@@ -30,10 +30,12 @@ public class GameList {
 			while (iterator.hasNext()) {
 				JSONObject nextGameJSON = (JSONObject) iterator.next();
 				Game nextGame = Game.fromJSON(nextGameJSON.toJSONString());
+				if(nextGame == null) throw new ParseException(ParseException.ERROR_UNEXPECTED_EXCEPTION);
 				output.games.add(nextGame);
 			}
 		} catch (ParseException e) {
-				e.printStackTrace();
+			System.err.println("Unable to parse GameList");
+			return null;
 		}
 
 		return output; 
