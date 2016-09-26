@@ -15,6 +15,7 @@ public class Terminal {
 
 	public Terminal (Manning manning) {
 		this.manning = manning;
+
 		try {
 			console = new ConsoleReader(System.in, System.out);
 		} catch(IOException ioex) {

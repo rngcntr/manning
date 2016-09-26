@@ -122,24 +122,24 @@ public class Game {
 	public String toString () {
 		StringBuilder scoreBox = new StringBuilder();
 		if(isRunning()) {
-			scoreBox.append(String.format("%s╔═════╤═══════════╤═════╗%s\n", generateModifiers(), Printer.ANSI_RESET));
-			scoreBox.append(String.format("%s║ %3d │ %3s @ %-3s │ %-3d ║%s\n",
-				generateModifiers(), guestScore, guestShort, homeShort, homeScore, Printer.ANSI_RESET));
-			scoreBox.append(String.format("%s╚═════╧═══════════╧═════╝%s\n", generateModifiers(), Printer.ANSI_RESET));
+			scoreBox.append("╔═════╤═══════════╤═════╗\n");
+			scoreBox.append(String.format("║ %3d │ %3s @ %-3s │ %-3d ║\n",
+				guestScore, guestShort, homeShort, homeScore));
+			scoreBox.append("╚═════╧═══════════╧═════╝\n");
 		} else {
-			scoreBox.append(String.format("%s┌─────┬───────────┬─────┐%s\n", generateModifiers(), Printer.ANSI_RESET));
-			scoreBox.append(String.format("%s│ %3d │ %3s @ %-3s │ %-3d │%s\n",
-				generateModifiers(), guestScore, guestShort, homeShort, homeScore, Printer.ANSI_RESET));
-			scoreBox.append(String.format("%s└─────┴───────────┴─────┘%s\n", generateModifiers(), Printer.ANSI_RESET));
+			scoreBox.append("┌─────┬───────────┬─────┐\n");
+			scoreBox.append(String.format("│ %3d │ %3s @ %-3s │ %-3d │\n",
+				guestScore, guestShort, homeShort, homeScore));
+			scoreBox.append("└─────┴───────────┴─────┘\n");
 		}
 
-		return scoreBox.toString();
+		return Printer.decorate(scoreBox.toString(), generateModifiers());
 	}
 
 	private String generateModifiers () {
 		StringBuilder modifiers = new StringBuilder();
 
-		if (!lastAction.equals("")) {
+		if (!lastAction.equals("") && !lastAction.equals("INT")) {
 			modifiers.append(Printer.ANSI_GREEN_BOLD);
 		} else if (isRunning()) {
 			modifiers.append(Printer.ANSI_WHITE_BOLD);

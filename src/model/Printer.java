@@ -31,4 +31,15 @@ public class Printer {
 		String strDate = sdfDate.format(now);
 		return strDate;
 	}
+
+	public static String decorate (String input, String option) {
+		StringBuilder output = new StringBuilder();
+		String[] splitted = input.split("\n");
+
+		for (String line : splitted) {
+			output.append(String.format("%s%s%s\n", option, line, ANSI_RESET));
+		}
+
+		return output.toString();
+	}
 }
