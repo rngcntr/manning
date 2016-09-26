@@ -33,8 +33,11 @@ public class GameList {
 				if(nextGame == null) throw new ParseException(ParseException.ERROR_UNEXPECTED_EXCEPTION);
 				output.games.add(nextGame);
 			}
-		} catch (ParseException e) {
-			System.err.println("Unable to parse GameList");
+		} catch (ParseException pex) {
+			System.err.println("Unable to parse GameList from JSON");
+			return null;
+		} catch (NullPointerException npex) {
+			System.err.println("Unable to parse GameList from JSON");
 			return null;
 		}
 

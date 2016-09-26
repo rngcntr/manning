@@ -52,10 +52,12 @@ public class Game {
 			output.lastAction = (String) jsonObject.get("ga");
 	        //  "gsis": 56933,
 	        //  "rz": -1,
-
-			return output;
-		} catch (ParseException e) {
+		} catch (ParseException pex) {
 			System.err.println("Unable to parse Game from JSON");
+			return null;
+		} catch (NullPointerException npex) {
+			System.err.println("Unable to parse Game from JSON");
+			return null;
 		}
 
 		return output; 
