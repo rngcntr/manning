@@ -21,7 +21,7 @@ public class ManningController {
 			taui.refreshOverview();
 
 			try {
-				Thread.sleep(4000);
+				Thread.sleep(1000);
 			} catch(InterruptedException intex) {
 				break;
 			}

@@ -20,6 +20,8 @@ public class Game {
 	private long id = 0L;
 	private String state = "";
 
+	private String lastAction = "";
+
 	public Game (long id) {
 		this.id = id;
 	}
@@ -47,8 +49,8 @@ public class Game {
 			output.day = (String) jsonObject.get("d");
 			output.time = (String) jsonObject.get("t");
 
+			output.lastAction = (String) jsonObject.get("ga");
 	        //  "gsis": 56933,
-	        //  "ga": "",
 	        //  "rz": -1,
 
 			return output;
@@ -96,23 +98,52 @@ public class Game {
 	}
 
 	public boolean isRunning () {
-		// TODO: Change to check status
-		return time.equals("1:00");
+		boolean running = false;
+
+		switch (state) {
+			case "1":
+			case "2":
+			case "H":
+			case "3":
+			case "4":
+			case "5":
+				running = true;
+				break;
+			default:
+				running = false;
+				break;
+		}
+
+		return running;
 	}
 
 	public String toString () {
 		StringBuilder scoreBox = new StringBuilder();
 		if(isRunning()) {
-			scoreBox.append("╔═════╤═══════════╤═════╗\n");
-			scoreBox.append(String.format("║ %3d │ %3s @ %-3s │ %-3d ║\n", guestScore, guestShort, homeShort, homeScore));
-			scoreBox.append("╚═════╧═══════════╧═════╝\n");
+			scoreBox.append(String.format("%s╔═════╤═══════════╤═════╗%s\n", generateModifiers(), Printer.ANSI_RESET));
+			scoreBox.append(String.format("%s║ %3d │ %3s @ %-3s │ %-3d ║%s\n",
+				generateModifiers(), guestScore, guestShort, homeShort, homeScore, Printer.ANSI_RESET));
+			scoreBox.append(String.format("%s╚═════╧═══════════╧═════╝%s\n", generateModifiers(), Printer.ANSI_RESET));
 		} else {
-			scoreBox.append("┌─────┬───────────┬─────┐\n");
-			scoreBox.append(String.format("│ %3d │ %3s @ %-3s │ %-3d │\n", guestScore, guestShort, homeShort, homeScore));
-			scoreBox.append("└─────┴───────────┴─────┘\n");
+			scoreBox.append(String.format("%s┌─────┬───────────┬─────┐%s\n", generateModifiers(), Printer.ANSI_RESET));
+			scoreBox.append(String.format("%s│ %3d │ %3s @ %-3s │ %-3d │%s\n",
+				generateModifiers(), guestScore, guestShort, homeShort, homeScore, Printer.ANSI_RESET));
+			scoreBox.append(String.format("%s└─────┴───────────┴─────┘%s\n", generateModifiers(), Printer.ANSI_RESET));
 		}
 
 		return scoreBox.toString();
+	}
+
+	private String generateModifiers () {
+		StringBuilder modifiers = new StringBuilder();
+
+		if (!lastAction.equals("")) {
+			modifiers.append(Printer.ANSI_GREEN_BOLD);
+		} else if (isRunning()) {
+			modifiers.append(Printer.ANSI_WHITE_BOLD);
+		}
+
+		return modifiers.toString();
 	}
 
 }
