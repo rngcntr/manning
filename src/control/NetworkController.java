@@ -36,7 +36,9 @@ public class NetworkController {
 				// site has changed, refresh information
 				modified.put(url, newLastModified);
 			}
-		} catch(MalformedURLException e) {
+		} catch (NullPointerException npex) {
+			return cache.get(url);
+		} catch (MalformedURLException mfuex) {
 			System.err.println("Unable to resolve web URL.");
 			return cache.get(url);
 		} catch (IOException ioex) {

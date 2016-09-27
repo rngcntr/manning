@@ -10,6 +10,7 @@ public class ManningController {
 	private TerminalAUI taui;
 
 	private GameList gameList;
+	private DetailedGame detailedGame;
 
 	public ManningController () {
 		netControl = new NetworkController(this);
@@ -17,10 +18,15 @@ public class ManningController {
 
 	public void run () {
 		while (true) {
-			GameList newGameList = GameList.fromJSON(netControl.get("http://www.nfl.com/liveupdate/scorestrip/ss.json"));
-			if (newGameList != null) {
-				gameList = newGameList;
-				taui.refreshOverview();
+			//GameList newGameList = GameList.fromJSON(netControl.get("http://www.nfl.com/liveupdate/scorestrip/ss.json"));
+			//if (newGameList != null) {
+			//	gameList = newGameList;
+			//	taui.refreshOverview();
+			//}
+			DetailedGame newGame = DetailedGame.fromJSON(netControl.get("http://www.nfl.com/liveupdate/game-center/2016020700/2016020700_gtd.json"));
+			if (newGame != null) {
+				detailedGame = newGame;
+				taui.refreshSingleView();
 			}
 
 			try {
@@ -41,6 +47,10 @@ public class ManningController {
 
 	public GameList getGameList () {
 		return gameList;
+	}
+	
+	public DetailedGame getDetailedGame () {
+		return detailedGame;
 	}
 
 }

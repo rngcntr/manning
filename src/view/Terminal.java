@@ -8,7 +8,6 @@ public class Terminal {
 
 	private Manning manning;
 
-	private GameList currentGameList = null;
 	private int lineCount = 0;
 
 	private ConsoleReader console;
@@ -26,17 +25,40 @@ public class Terminal {
 	}
 
 	void refreshOverview (GameList newGameList) {
-		String output = newGameList.toString();
+		StringBuilder output = new StringBuilder();
+		
+		output.append(newGameList.toString());
+		String timeStamp = String.format("Last updated: %s", Printer.getCurrentTimeStamp());
+		output.append(String.format("\n Press 'q' to exit%34s ", timeStamp));
 
+		clearScreen();
+		System.out.print(output.toString());
+		lineCount = output.toString().split("\n").length;
+	}
+	
+	void refreshSingleView (DetailedGame newGame) {
+		StringBuilder output = new StringBuilder();
+		
+		String scoreBox = newGame.getScoreBox();
+		String statsBox = newGame.getStatsBox();
+		String fieldBox = newGame.getField();
+
+		output.append(Printer.align(scoreBox, 4, statsBox));
+		output.append("\n\n");
+		output.append(fieldBox);
+		String timeStamp = String.format("Last updated: %s", Printer.getCurrentTimeStamp());
+		output.append(String.format("\n Press 'q' to exit%34s ", timeStamp));
+		
+		clearScreen();
+		System.out.println(output.toString());
+		lineCount = output.toString().split("\n").length;
+	}
+
+	private void clearScreen () {
 		if(lineCount > 0) {
 			System.out.printf("\033[%dA", lineCount);
 			System.out.printf("\033[2K");
 		}
-
-		System.out.print(output);
-
-		currentGameList = newGameList;
-		lineCount = output.split("\n").length;
 	}
 
 	private void listenForInput () {

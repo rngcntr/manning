@@ -71,9 +71,6 @@ public class GameList {
 			}
 		}
 
-		String timeStamp = String.format("Last updated: %s", Printer.getCurrentTimeStamp());
-		output.append(String.format("\n Press 'q' to exit%34s \n", timeStamp));
-
 		return output.toString();
 	}
 }

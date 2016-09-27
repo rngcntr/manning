@@ -11,30 +11,18 @@ public class Game {
 	private String homeShort = "";
 	private String guestShort = "";
 
-	private String homeLong = "";
-	private String guestLong = "";
-	
-	private String day = "";
-	private String time = "";
-
-	private long id = 0L;
 	private String state = "";
 
 	private String lastAction = "";
 
-	public Game (long id) {
-		this.id = id;
-	}
-
 	public static Game fromJSON (String json) {
-		Game output = null;
+		Game output = new Game();
 
 		JSONParser parser = new JSONParser();
 
 		try {
 			JSONObject jsonObject = (JSONObject) parser.parse(json);
 
-			output = new Game((long) jsonObject.get("eid"));
 			output.state = (String) jsonObject.get("q");
 
 			output.homeScore = (long) jsonObject.get("hs");
@@ -43,12 +31,6 @@ public class Game {
 			output.homeShort = (String) jsonObject.get("h");
 			output.guestShort = (String) jsonObject.get("v");
 			
-			output.homeLong = (String) jsonObject.get("hnn");
-			output.guestLong = (String) jsonObject.get("vnn");
-
-			output.day = (String) jsonObject.get("d");
-			output.time = (String) jsonObject.get("t");
-
 			output.lastAction = (String) jsonObject.get("ga");
 	        //  "gsis": 56933,
 	        //  "rz": -1,
@@ -77,22 +59,6 @@ public class Game {
 
 	public void setGuestShort (String guestShort) {
 		this.guestShort = guestShort;
-	}
-
-	public void setHomeLong (String homeLong) {
-		this.homeLong = homeLong;
-	}
-
-	public void setGuestLong (String guestLong) {
-		this.guestLong = guestLong;
-	}
-
-	public void setDay (String day) {
-		this.day = day;
-	}
-
-	public void setTime (String time) {
-		this.time = time;
 	}
 
 	public void setState (String state) {
