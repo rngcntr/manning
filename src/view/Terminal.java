@@ -21,6 +21,8 @@ public class Terminal {
 		} catch(IOException ioex) {
 			System.err.println("Unable to open console streams");
 		}
+
+		new Thread (() -> listenForInput()).start();
 	}
 
 	void refreshOverview (GameList newGameList) {
@@ -35,8 +37,6 @@ public class Terminal {
 
 		currentGameList = newGameList;
 		lineCount = output.split("\n").length;
-
-		new Thread (() -> listenForInput()).start();
 	}
 
 	private void listenForInput () {
