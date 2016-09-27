@@ -5,7 +5,7 @@ import org.json.simple.parser.*;
 import java.util.*;
 import java.lang.Math;
 
-public class DetailedGame extends Game {
+public class DetailedGame {
 
 	private Team home = null;
 	private Team guest = null;

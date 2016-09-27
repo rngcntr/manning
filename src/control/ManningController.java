@@ -17,6 +17,8 @@ public class ManningController {
 	}
 
 	public void run () {
+		taui.showLoadingMessage();
+
 		while (true) {
 			//GameList newGameList = GameList.fromJSON(netControl.get("http://www.nfl.com/liveupdate/scorestrip/ss.json"));
 			//if (newGameList != null) {

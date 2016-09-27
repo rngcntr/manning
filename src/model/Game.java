@@ -11,6 +11,7 @@ public class Game {
 	private String homeShort = "";
 	private String guestShort = "";
 
+	private long id = 0L;
 	private String state = "";
 
 	private String lastAction = "";
@@ -23,6 +24,7 @@ public class Game {
 		try {
 			JSONObject jsonObject = (JSONObject) parser.parse(json);
 
+			output.id = (long) jsonObject.get("eid");
 			output.state = (String) jsonObject.get("q");
 
 			output.homeScore = (long) jsonObject.get("hs");
@@ -45,24 +47,8 @@ public class Game {
 		return output; 
 	}
 
-	public void setHomeScore (long homeScore) {
-		this.homeScore = homeScore;
-	}
-
-	public void setGuestScore (long guestScore) {
-		this.guestScore = guestScore;
-	}
-
-	public void setHomeShort (String homeShort) {
-		this.homeShort = homeShort;
-	}
-
-	public void setGuestShort (String guestShort) {
-		this.guestShort = guestShort;
-	}
-
-	public void setState (String state) {
-		this.state = state;
+	public long getID () {
+		return id;
 	}
 
 	public boolean isRunning () {

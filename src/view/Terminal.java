@@ -24,6 +24,12 @@ public class Terminal {
 		new Thread (() -> listenForInput()).start();
 	}
 
+	void showLoadingMessage () {
+		clearScreen();
+		System.out.println(" Loading web resource. Please wait...");
+		lineCount = 1;
+	}
+
 	void refreshOverview (GameList newGameList) {
 		StringBuilder output = new StringBuilder();
 		

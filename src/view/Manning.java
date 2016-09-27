@@ -20,11 +20,15 @@ public class Manning implements TerminalAUI {
 		manControl.run();
 	}
 
+	public void showLoadingMessage () {
+		terminal.showLoadingMessage();
+	}
+
 	public void refreshOverview () {
-		terminal.refreshOverview (manControl.getGameList());
+		terminal.refreshOverview(manControl.getGameList());
 	}
 
 	public void refreshSingleView () {
-		terminal.refreshSingleView (manControl.getDetailedGame());
+		terminal.refreshSingleView(manControl.getDetailedGame());
 	}
 }
