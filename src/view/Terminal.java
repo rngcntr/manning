@@ -38,7 +38,7 @@ public class Terminal {
 		output.append(String.format("\n Press 'q' to exit%34s ", timeStamp));
 
 		clearScreen();
-		System.out.print(output.toString());
+		System.out.println(output.toString());
 		lineCount = output.toString().split("\n").length;
 	}
 	

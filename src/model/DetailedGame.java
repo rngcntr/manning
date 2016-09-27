@@ -20,14 +20,14 @@ public class DetailedGame {
 	private String clock = "";
 	private String posTeam = "";
 
-	public static DetailedGame fromJSON (String json) {
+	public static DetailedGame fromJSON (String json, long id) {
 		DetailedGame output = new DetailedGame();
 
 		JSONParser parser = new JSONParser();
 
 		try {
 			JSONObject jsonObject = (JSONObject) parser.parse(json);
-			JSONObject game = (JSONObject) jsonObject.values().toArray()[1];
+			JSONObject game = (JSONObject) jsonObject.get(String.valueOf(id));
 
 			JSONObject homeTeam = (JSONObject) game.get("home");
 			output.home = Team.fromJSON(homeTeam.toJSONString());

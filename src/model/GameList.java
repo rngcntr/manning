@@ -44,6 +44,16 @@ public class GameList {
 		return output; 
 	}
 
+	public long getGame (String team) {
+		for (Game game : games) {
+			if (team.equals(game.getHome()) || team.equals(game.getGuest())) {
+				return game.getID();
+			}
+		}
+
+		return -1L;
+	}
+
 	public String toString() {
 		StringBuilder output = new StringBuilder();
 

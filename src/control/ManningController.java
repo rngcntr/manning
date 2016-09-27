@@ -11,24 +11,28 @@ public class ManningController {
 
 	private GameList gameList;
 	private DetailedGame detailedGame;
+	private long observedID = -1L;
 
 	public ManningController () {
 		netControl = new NetworkController(this);
 	}
 
 	public void run () {
-		taui.showLoadingMessage();
-
 		while (true) {
-			//GameList newGameList = GameList.fromJSON(netControl.get("http://www.nfl.com/liveupdate/scorestrip/ss.json"));
-			//if (newGameList != null) {
-			//	gameList = newGameList;
-			//	taui.refreshOverview();
-			//}
-			DetailedGame newGame = DetailedGame.fromJSON(netControl.get("http://www.nfl.com/liveupdate/game-center/2016020700/2016020700_gtd.json"));
-			if (newGame != null) {
-				detailedGame = newGame;
-				taui.refreshSingleView();
+			if (observedID == -1L) {
+				String url = "http://www.nfl.com/liveupdate/scorestrip/ss.json";
+				GameList newGameList = GameList.fromJSON(netControl.get(url));
+				if (newGameList != null) {
+					gameList = newGameList;
+					taui.refreshOverview();
+				}
+			} else {
+				String url = "http://www.nfl.com/liveupdate/game-center/" + observedID + "/" + observedID + "_gtd.json";
+				DetailedGame newGame = DetailedGame.fromJSON(netControl.get(url), observedID);
+				if (newGame != null) {
+					detailedGame = newGame;
+					taui.refreshSingleView();
+				}
 			}
 
 			try {
@@ -37,6 +41,16 @@ public class ManningController {
 				break;
 			}
 		}
+	}
+
+	public void observeGame (String team) {
+		taui.showLoadingMessage();
+
+		while (gameList == null) {
+			gameList = GameList.fromJSON(netControl.get("http://www.nfl.com/liveupdate/scorestrip/ss.json"));
+		}
+		
+		observedID = gameList.getGame(team);
 	}
 
 	public void setTerminalAUI (TerminalAUI taui) {

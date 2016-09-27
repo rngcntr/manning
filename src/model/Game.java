@@ -50,6 +50,14 @@ public class Game {
 	public long getID () {
 		return id;
 	}
+	
+	public String getHome () {
+		return homeShort;
+	}
+
+	public String getGuest () {
+		return guestShort;
+	}
 
 	public boolean isRunning () {
 		boolean running = false;
