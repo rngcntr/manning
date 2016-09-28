@@ -4,12 +4,18 @@ import control.*;
 
 public class Manning implements TerminalAUI {
 
+	private static final boolean DEBUG = true;
+
 	private ManningController manControl;
 
 	private Terminal terminal;
 	private String observedTeam = "";
 
 	public static void main (String[] args) {
+		if (!DEBUG) {
+			System.err.close();
+		}
+
 		if (args.length > 0) {
 			new Manning(args[0]);
 		} else {

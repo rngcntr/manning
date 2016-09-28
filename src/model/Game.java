@@ -1,7 +1,6 @@
 package model;
 
 import org.json.simple.*;
-import org.json.simple.parser.*;
 
 public class Game {
 
@@ -16,14 +15,10 @@ public class Game {
 
 	private String lastAction = "";
 
-	public static Game fromJSON (String json) {
+	public static Game fromJSON (JSONObject jsonObject) {
 		Game output = new Game();
 
-		JSONParser parser = new JSONParser();
-
 		try {
-			JSONObject jsonObject = (JSONObject) parser.parse(json);
-
 			output.id = (long) jsonObject.get("eid");
 			output.state = (String) jsonObject.get("q");
 
@@ -36,9 +31,6 @@ public class Game {
 			output.lastAction = (String) jsonObject.get("ga");
 	        //  "gsis": 56933,
 	        //  "rz": -1,
-		} catch (ParseException pex) {
-			System.err.println("Unable to parse Game from JSON");
-			return null;
 		} catch (NullPointerException npex) {
 			System.err.println("Unable to parse Game from JSON");
 			return null;

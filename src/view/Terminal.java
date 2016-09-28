@@ -47,13 +47,17 @@ public class Terminal {
 		
 		String scoreBox = newGame.getScoreBox();
 		String statsBox = newGame.getStatsBox();
+		String quarterBox = newGame.getQuarterBox();
 		String fieldBox = newGame.getField();
+		String driveBox = newGame.getDriveBox(63);
 
-		output.append(Printer.align(scoreBox, 4, statsBox));
+		output.append(Printer.align(Printer.align(scoreBox, 4, statsBox), 4, quarterBox));
 		output.append("\n\n");
 		output.append(fieldBox);
+		output.append("\n\n");
+		output.append(driveBox);
 		String timeStamp = String.format("Last updated: %s", Printer.getCurrentTimeStamp());
-		output.append(String.format("\n Press 'q' to exit%34s ", timeStamp));
+		output.append(String.format("\n\n Press 'q' to exit%34s ", timeStamp));
 		
 		clearScreen();
 		System.out.println(output.toString());

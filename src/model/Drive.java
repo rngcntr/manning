@@ -1,52 +1,61 @@
 package model;
 
 import org.json.simple.*;
-import org.json.simple.parser.*;
 import java.util.*;
 
 public class Drive {
 
-	private long id = 0L;
 	private String team = "";
 
 	private ArrayList<Play> plays;
 
 	private String result = "";
 	private long yards = 0L;
-	private long plays = 0L;
+	private long numPlays = 0L;
 
-	public Drive (long id) {
-		this.id = id;
-	}
-
-	public static Drive fromJSON (String json) {
-		DetailedGame output = null;
-
-		JSONParser parser = new JSONParser();
+	public static Drive fromJSON (JSONObject jsonObject) {
+		Drive output = new Drive();
 
 		try {
-			JSONObject jsonObject = (JSONObject) parser.parse(json);
+			output.team = (String) jsonObject.get("posteam");
+			output.result = (String) jsonObject.get("result");
+			output.yards = (long) jsonObject.get("ydsgained");
+			output.numPlays = (long) jsonObject.get("numplays");
 
-			output = new Game((long) jsonObject.get("eid"));
-			output.state = (String) jsonObject.get("q");
-
-			output.homeScore = (long) jsonObject.get("hs");
-			output.guestScore = (long) jsonObject.get("vs");
-
-			output.homeShort = (String) jsonObject.get("h");
-			output.guestShort = (String) jsonObject.get("v");
-			
-			output.lastAction = (String) jsonObject.get("ga");
-	        //  "gsis": 56933,
-	        //  "rz": -1,
-		} catch (ParseException pex) {
-			System.err.println("Unable to parse Drive from JSON");
-			return null;
+			JSONObject jsonPlays = (JSONObject) jsonObject.get("plays");
+			output.plays = new ArrayList<Play>();
+			for (Object key : jsonPlays.keySet()) {
+				JSONObject jsonPlay = (JSONObject) jsonPlays.get((String) key);
+				Play newPlay = Play.fromJSON(jsonPlay);
+				output.plays.add(newPlay);
+			}
 		} catch (NullPointerException npex) {
+			npex.printStackTrace();
 			System.err.println("Unable to parse Drive from JSON");
 			return null;
 		}
 
 		return output; 
+	}
+
+	public String toString (int width) {
+		String left = String.format("%3s: %2d plays, %3d yards ", team, numPlays, yards);
+		
+		int space = width - left.length() - result.length();
+		if (space < 0) {
+			return "";
+		}
+
+		String output = String.format("%s%s%s", left, Printer.generateSpace(space), result);
+		return Printer.decorate(output, generateDefaultModifiers());
+	}
+
+	private String generateDefaultModifiers () {
+		StringBuilder modifiers = new StringBuilder();
+
+		modifiers.append(Printer.ANSI_RESET);
+		modifiers.append(Printer.ANSI_WHITE_BOLD);
+
+		return modifiers.toString();
 	}
 }

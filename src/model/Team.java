@@ -1,7 +1,6 @@
 package model;
 
 import org.json.simple.*;
-import org.json.simple.parser.*;
 
 public class Team {
 
@@ -22,14 +21,10 @@ public class Team {
 	private long penaltyYards;
 	private long turnovers;
 
-	public static Team fromJSON (String json) {
+	public static Team fromJSON (JSONObject jsonObject) {
 		Team output = new Team();
 
-		JSONParser parser = new JSONParser();
-
 		try {
-			JSONObject jsonObject = (JSONObject) parser.parse(json);
-
 			output.name = (String) jsonObject.get("abbr");
 			output.timeouts = (long) jsonObject.get("to");
 			
@@ -50,9 +45,6 @@ public class Team {
 			output.penalties = (long) teamStats.get("pen");
 			output.penaltyYards = (long) teamStats.get("penyds");
 			output.turnovers = (long) teamStats.get("trnovr");
-		} catch (ParseException pex) {
-			System.err.println("Unable to parse Team from JSON");
-			return null;
 		} catch (NullPointerException npex) {
 			System.err.println("Unable to parse Team from JSON");
 			return null;
@@ -97,6 +89,22 @@ public class Team {
 
 	public long getScore () {
 		return totalScore;
+	}
+
+	public long getQuarter1 () {
+		return q1Score;
+	}
+
+	public long getQuarter2 () {
+		return q2Score;
+	}
+
+	public long getQuarter3 () {
+		return q3Score;
+	}
+
+	public long getQuarter4 () {
+		return q4Score;
 	}
 
 	public long getYards () {

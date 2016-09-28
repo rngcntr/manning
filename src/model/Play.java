@@ -1,7 +1,6 @@
 package model;
 
 import org.json.simple.*;
-import org.json.simple.parser.*;
 
 public class Play {
 
@@ -15,14 +14,10 @@ public class Play {
 	private String desc = "";
 	private String note = "";
 
-	public static Play fromJSON (String json) {
+	public static Play fromJSON (JSONObject jsonObject) {
 		Play output = new Play();
 
-		JSONParser parser = new JSONParser();
-
 		try {
-			JSONObject jsonObject = (JSONObject) parser.parse(json);
-
 			output.quarter = (long) jsonObject.get("qtr");
 			output.down = (long) jsonObject.get("down");
 			output.time = (String) jsonObject.get("time");
@@ -32,14 +27,15 @@ public class Play {
 			
 			output.desc = (String) jsonObject.get("desc");
 			output.note = (String) jsonObject.get("note");
-		} catch (ParseException pex) {
-			System.err.println("Unable to parse Play from JSON");
-			return null;
 		} catch (NullPointerException npex) {
 			System.err.println("Unable to parse Play from JSON");
 			return null;
 		}
 
 		return output; 
+	}
+
+	public String toString () {
+		return desc;
 	}
 }

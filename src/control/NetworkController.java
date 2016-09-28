@@ -3,6 +3,8 @@ package control;
 import java.net.*;
 import java.io.*;
 import java.util.HashMap;
+import org.json.simple.*;
+import org.json.simple.parser.*;
 
 public class NetworkController {
 
@@ -68,6 +70,18 @@ public class NetworkController {
 
 		cache.put(url, output.toString());
 		return output.toString();
+	}
+
+	public JSONObject parse (String json) {
+		JSONParser parser = new JSONParser();
+
+		try {
+			JSONObject jsonObject = (JSONObject) parser.parse(json);
+			return jsonObject;
+		} catch (ParseException pex) {
+			System.err.println("Unable to parse JSON String.");
+			return null;
+		}
 	}
 
 }

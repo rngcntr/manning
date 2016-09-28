@@ -1,7 +1,6 @@
 package model;
 
 import org.json.simple.*;
-import org.json.simple.parser.*;
 import java.util.*;
 import java.lang.Math;
 
@@ -12,7 +11,8 @@ public class DetailedGame {
 
 	private String state = "";
 
-	//private ArrayList<Drive> drives;
+	private ArrayList<Drive> drives;
+	private long currentDrive = 0;
 
 	private String yardLine = "";
 	private long down = 0;
@@ -20,20 +20,17 @@ public class DetailedGame {
 	private String clock = "";
 	private String posTeam = "";
 
-	public static DetailedGame fromJSON (String json, long id) {
+	public static DetailedGame fromJSON (JSONObject jsonObject, long id) {
 		DetailedGame output = new DetailedGame();
 
-		JSONParser parser = new JSONParser();
-
 		try {
-			JSONObject jsonObject = (JSONObject) parser.parse(json);
 			JSONObject game = (JSONObject) jsonObject.get(String.valueOf(id));
 
 			JSONObject homeTeam = (JSONObject) game.get("home");
-			output.home = Team.fromJSON(homeTeam.toJSONString());
+			output.home = Team.fromJSON(homeTeam);
 
 			JSONObject guestTeam = (JSONObject) game.get("away");
-			output.guest = Team.fromJSON(guestTeam.toJSONString());
+			output.guest = Team.fromJSON(guestTeam);
 
 			output.state = (String) game.get("qtr");
 			output.yardLine = (String) game.get("yl");
@@ -41,9 +38,15 @@ public class DetailedGame {
 			output.toGo = (long) game.get("togo");
 			output.clock = (String) game.get("clock");
 			output.posTeam = (String) game.get("posteam");
-		} catch (ParseException pex) {
-			System.err.println("Unable to parse DetailedGame from JSON");
-			return null;
+
+			output.drives = new ArrayList<Drive>();
+			JSONObject jsonDrives = (JSONObject) game.get("drives");
+			output.currentDrive = (long) jsonDrives.get("crntdrv");
+
+			for (int driveCount = 1; driveCount < output.currentDrive; driveCount++) {
+				JSONObject nextDrive = (JSONObject) jsonDrives.get(String.valueOf(driveCount));
+				output.drives.add(Drive.fromJSON(nextDrive));
+			}
 		} catch (NullPointerException npex) {
 			System.err.println("Unable to parse DetailedGame from JSON");
 			return null;
@@ -128,6 +131,21 @@ public class DetailedGame {
 		return Printer.decorate(statsBox.toString(), generateDefaultModifiers());
 	}
 
+	public String getQuarterBox () {
+		StringBuilder quarterBox = new StringBuilder();
+
+		quarterBox.append(" ╔═══════╦════╤════╤════╤════╗ \n");
+		quarterBox.append(" ║   QTR ║  1 │  2 │  3 │  4 ║ \n");
+		quarterBox.append(" ╠═══════╬════╪════╪════╪════╣ \n");
+		quarterBox.append(String.format(" ║   %3s ║ %2d │ %2d │ %2d │ %2d ║ \n", guest.getName(),
+					guest.getQuarter1(), guest.getQuarter2(), guest.getQuarter3(), guest.getQuarter4()));
+		quarterBox.append(String.format(" ║   %3s ║ %2d │ %2d │ %2d │ %2d ║ \n", home.getName(),
+					home.getQuarter1(), home.getQuarter2(), home.getQuarter3(), home.getQuarter4()));
+		quarterBox.append(" ╚═══════╩════╧════╧════╧════╝ ");
+
+		return Printer.decorate(quarterBox.toString(), generateDefaultModifiers());
+	}
+
 	public String getField () {
 		String[] field = new String[] {
 			"                                                                                                                               \n",
@@ -154,6 +172,22 @@ public class DetailedGame {
 		}
 
 		return Printer.decorate(output.toString(), generateFieldModifiers());
+	}
+
+	public String getDriveBox (int width) {
+		StringBuilder driveBox = new StringBuilder();
+
+		String headerContent = "DRIVES";
+		String header = String.format("%s%s", headerContent, Printer.generateSpace(width - headerContent.length()));
+		driveBox.append(Printer.decorate(header, generateDefaultModifiers()));
+		
+		int indent = 5;
+
+		for (Drive drive : drives) {
+			driveBox.append(String.format("\n%s%s", Printer.generateSpace(indent), drive.toString(width - indent)));
+		}
+
+		return driveBox.toString();
 	}
 
 	private String generateDefaultModifiers () {
