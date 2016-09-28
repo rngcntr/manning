@@ -12,6 +12,7 @@ public class Drive {
 	private String result = "";
 	private long yards = 0L;
 	private long numPlays = 0L;
+	private long quarter = 0L;
 
 	public static Drive fromJSON (JSONObject jsonObject) {
 		Drive output = new Drive();
@@ -21,6 +22,7 @@ public class Drive {
 			output.result = (String) jsonObject.get("result");
 			output.yards = (long) jsonObject.get("ydsgained");
 			output.numPlays = (long) jsonObject.get("numplays");
+			output.quarter = (long) jsonObject.get("qtr");
 
 			JSONObject jsonPlays = (JSONObject) jsonObject.get("plays");
 			output.plays = new ArrayList<Play>();
@@ -38,22 +40,36 @@ public class Drive {
 		return output; 
 	}
 
-	public String toString (int width) {
-		String left = String.format("%3s: %2d plays, %3d yards ", team, numPlays, yards);
+	public String toString (int width, int observedPlay) {
+		StringBuilder output = new StringBuilder();
+		String left = String.format("[%3s] %3s: %2d plays, %3d yards ",
+				Printer.numberAsString(quarter), team, numPlays, yards);
 		
 		int space = width - left.length() - result.length();
 		if (space < 0) {
 			return "";
 		}
 
-		String output = String.format("%s%s%s", left, Printer.generateSpace(space), result);
-		return Printer.decorate(output, generateDefaultModifiers());
+		String header = String.format("%s%s%s", left, Printer.generateSpace(space), result);
+		StringBuilder content = new StringBuilder();
+		
+		observedPlay %= plays.size();
+		observedPlay += plays.size();
+		observedPlay %= plays.size();
+		Play nextPlay = plays.get(plays.size() - observedPlay - 1);
+		content.append(String.format("\n\n%s", nextPlay.toString(width, true)));
+
+		output.append(Printer.decorate(header, generateDefaultModifiers()));
+		output.append(content.toString());
+
+		return output.toString();
 	}
 
 	private String generateDefaultModifiers () {
 		StringBuilder modifiers = new StringBuilder();
 
 		modifiers.append(Printer.ANSI_RESET);
+		modifiers.append(Printer.ANSI_BACK_BLACK);
 		modifiers.append(Printer.ANSI_WHITE_BOLD);
 
 		return modifiers.toString();

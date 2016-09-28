@@ -86,6 +86,30 @@ public class Printer {
 		return output.toString();
 	}
 
+	public static String fit (String input, int width, int height) {
+		StringBuilder output = new StringBuilder();
+		String[] splittedIn = input.split("\n");
+		String[] splittedOut = new String[height];
+
+		for (int line = 0; line < height; line++) {
+			if (line < splittedIn.length) {
+				int length = splittedIn[line].length();
+				splittedOut[line] = String.format("%s%s", splittedIn[line], generateSpace(width - length));
+				splittedOut[line] = splittedOut[line].substring(0, width - 1);
+			} else {
+				splittedOut[line] = generateSpace(width);
+			}
+		}
+
+		for (int line = 0; line < splittedOut.length - 1; line++) {
+			output.append(String.format("%s\n", splittedOut[line]));
+		}
+
+		output.append(splittedOut[splittedOut.length - 1]);
+
+		return output.toString();
+	}
+
 	public static String decorate (String input, String option, String closeOption) {
 		StringBuilder output = new StringBuilder();
 		String[] splitted = input.split("\n");
@@ -142,5 +166,11 @@ public class Printer {
 		} catch (NumberFormatException nfex) {
 			return "   ";
 		}
+	}
+	
+	public static String breakLines (String input, int width) {
+		input += "\n"; // Needed to handle last line correctly
+		input = input.replaceAll(String.format("(.{1,%d})\\s+", width), "$1\n");
+		return input;
 	}
 }

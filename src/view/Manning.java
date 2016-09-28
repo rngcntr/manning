@@ -45,4 +45,8 @@ public class Manning implements TerminalAUI {
 	public void refreshSingleView () {
 		terminal.refreshSingleView(manControl.getDetailedGame());
 	}
+
+	public ManningController getManningController() {
+		return manControl;
+	}
 }

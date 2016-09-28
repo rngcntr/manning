@@ -35,7 +35,21 @@ public class Play {
 		return output; 
 	}
 
-	public String toString () {
-		return desc;
+	public String toString (int width, boolean observed) {
+		String output = Printer.breakLines(desc, width);
+		output = Printer.fit(output, width, 3);
+		return Printer.decorate(output, generateModifiers(observed));
+	}
+	
+	private String generateModifiers (boolean observed) {
+		StringBuilder modifiers = new StringBuilder();
+
+		modifiers.append(Printer.ANSI_RESET);
+
+		if (observed) {
+			modifiers.append(Printer.ANSI_WHITE_BOLD);
+		}
+
+		return modifiers.toString();
 	}
 }

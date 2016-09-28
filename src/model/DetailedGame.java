@@ -174,20 +174,17 @@ public class DetailedGame {
 		return Printer.decorate(output.toString(), generateFieldModifiers());
 	}
 
-	public String getDriveBox (int width) {
-		StringBuilder driveBox = new StringBuilder();
-
-		String headerContent = "DRIVES";
-		String header = String.format("%s%s", headerContent, Printer.generateSpace(width - headerContent.length()));
-		driveBox.append(Printer.decorate(header, generateDefaultModifiers()));
-		
-		int indent = 5;
-
-		for (Drive drive : drives) {
-			driveBox.append(String.format("\n%s%s", Printer.generateSpace(indent), drive.toString(width - indent)));
+	public String getDriveBox (int width, int observedDrive, int observedPlay) {
+		if (drives.isEmpty()) {
+			return "";
 		}
 
-		return driveBox.toString();
+		observedDrive %= drives.size();
+		observedDrive += drives.size();
+		observedDrive %= drives.size();
+		Drive toShow = drives.get(drives.size() - 1 - observedDrive);
+
+		return toShow.toString(width, observedPlay);
 	}
 
 	private String generateDefaultModifiers () {

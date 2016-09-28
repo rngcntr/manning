@@ -11,6 +11,9 @@ public class Terminal {
 	private int lineCount = 0;
 
 	private ConsoleReader console;
+	
+	private int observedDrive = 0;
+	private int observedPlay = 0;
 
 	public Terminal (Manning manning) {
 		this.manning = manning;
@@ -24,13 +27,13 @@ public class Terminal {
 		new Thread (() -> listenForInput()).start();
 	}
 
-	void showLoadingMessage () {
+	synchronized void showLoadingMessage () {
 		clearScreen();
 		System.out.println(" Loading web resource. Please wait...");
 		lineCount = 1;
 	}
 
-	void refreshOverview (GameList newGameList) {
+	synchronized void refreshOverview (GameList newGameList) {
 		StringBuilder output = new StringBuilder();
 		
 		output.append(newGameList.toString());
@@ -42,14 +45,14 @@ public class Terminal {
 		lineCount = output.toString().split("\n").length;
 	}
 	
-	void refreshSingleView (DetailedGame newGame) {
+	synchronized void refreshSingleView (DetailedGame newGame) {
 		StringBuilder output = new StringBuilder();
 		
 		String scoreBox = newGame.getScoreBox();
 		String statsBox = newGame.getStatsBox();
 		String quarterBox = newGame.getQuarterBox();
 		String fieldBox = newGame.getField();
-		String driveBox = newGame.getDriveBox(63);
+		String driveBox = newGame.getDriveBox(127, observedDrive, observedPlay);
 
 		output.append(Printer.align(Printer.align(scoreBox, 4, statsBox), 4, quarterBox));
 		output.append("\n\n");
@@ -57,7 +60,7 @@ public class Terminal {
 		output.append("\n\n");
 		output.append(driveBox);
 		String timeStamp = String.format("Last updated: %s", Printer.getCurrentTimeStamp());
-		output.append(String.format("\n\n Press 'q' to exit%34s ", timeStamp));
+		output.append(String.format("\n\n Press 'q' to exit%108s ", timeStamp));
 		
 		clearScreen();
 		System.out.println(output.toString());
@@ -73,9 +76,30 @@ public class Terminal {
 
 	private void listenForInput () {
 		try {
-			char input = (char) console.readCharacter(new char[]{'q'});
-			if (input == 'q') {
-				System.exit(0);
+			while (true) {
+				char input = (char) console.readCharacter(new char[]{'q', 'j', 'k', 'h', 'l'});
+
+				switch (input) {
+					case 'q':
+						System.exit(0);
+						break;
+					case 'j':
+						observedPlay++;
+						manning.refreshSingleView();
+						break;
+					case 'k':
+						observedPlay--;
+						manning.refreshSingleView();
+						break;
+					case 'h':
+						observedDrive--;
+						manning.refreshSingleView();
+						break;
+					case 'l':
+						observedDrive++;
+						manning.refreshSingleView();
+						break;
+				}
 			}
 		} catch(IOException ioex) {
 			System.exit(0);
