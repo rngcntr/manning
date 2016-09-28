@@ -77,26 +77,33 @@ public class Terminal {
 	private void listenForInput () {
 		try {
 			while (true) {
-				char input = (char) console.readCharacter(new char[]{'q', 'j', 'k', 'h', 'l'});
+				char input = (char) console.readCharacter(new char[]{'q', 'w', 'a', 's', 'd', '0'});
 
 				switch (input) {
 					case 'q':
 						System.exit(0);
 						break;
-					case 'j':
+					case 'w':
 						observedPlay++;
 						manning.refreshSingleView();
 						break;
-					case 'k':
+					case 's':
 						observedPlay--;
 						manning.refreshSingleView();
 						break;
-					case 'h':
-						observedDrive--;
+					case 'a':
+						observedDrive++;
+						observedPlay = 0;
 						manning.refreshSingleView();
 						break;
-					case 'l':
-						observedDrive++;
+					case 'd':
+						observedDrive--;
+						observedPlay = 0;
+						manning.refreshSingleView();
+						break;
+					case '0':
+						observedDrive = 0;
+						observedPlay = 0;
 						manning.refreshSingleView();
 						break;
 				}

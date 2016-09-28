@@ -17,7 +17,7 @@ public class Manning implements TerminalAUI {
 		}
 
 		if (args.length > 0) {
-			new Manning(args[0]);
+			new Manning(args[0].toUpperCase());
 		} else {
 			new Manning("");
 		}

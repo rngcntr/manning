@@ -35,18 +35,18 @@ public class Play {
 		return output; 
 	}
 
-	public String toString (int width, boolean observed) {
+	public String toString (int width, boolean current) {
 		String output = Printer.breakLines(desc, width);
 		output = Printer.fit(output, width, 3);
-		return Printer.decorate(output, generateModifiers(observed));
+		return Printer.decorate(output, generateModifiers(current));
 	}
 	
-	private String generateModifiers (boolean observed) {
+	private String generateModifiers (boolean current) {
 		StringBuilder modifiers = new StringBuilder();
 
 		modifiers.append(Printer.ANSI_RESET);
 
-		if (observed) {
+		if (current) {
 			modifiers.append(Printer.ANSI_WHITE_BOLD);
 		}
 

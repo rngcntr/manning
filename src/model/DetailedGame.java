@@ -184,7 +184,7 @@ public class DetailedGame {
 		observedDrive %= drives.size();
 		Drive toShow = drives.get(drives.size() - 1 - observedDrive);
 
-		return toShow.toString(width, observedPlay);
+		return toShow.toString(width, observedDrive == 0, observedPlay);
 	}
 
 	private String generateDefaultModifiers () {

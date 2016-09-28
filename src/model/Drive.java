@@ -26,7 +26,25 @@ public class Drive {
 
 			JSONObject jsonPlays = (JSONObject) jsonObject.get("plays");
 			output.plays = new ArrayList<Play>();
-			for (Object key : jsonPlays.keySet()) {
+			ArrayList<String> playKeys = new ArrayList<String>();
+			
+			for (Object o : jsonPlays.keySet()) {
+				playKeys.add((String) o);
+			}
+
+			Collections.sort(playKeys, new Comparator<String>() {
+				public int compare(String o1, String o2) {
+					return extractInt(o1) - extractInt(o2);
+				}
+
+				int extractInt(String s) {
+					String num = s.replaceAll("\\D", "");
+					// return 0 if no digits found
+					return num.isEmpty() ? 0 : Integer.parseInt(num);
+				}
+			});
+
+			for (Object key : playKeys) {
 				JSONObject jsonPlay = (JSONObject) jsonPlays.get((String) key);
 				Play newPlay = Play.fromJSON(jsonPlay);
 				output.plays.add(newPlay);
@@ -40,7 +58,7 @@ public class Drive {
 		return output; 
 	}
 
-	public String toString (int width, int observedPlay) {
+	public String toString (int width, boolean current, int observedPlay) {
 		StringBuilder output = new StringBuilder();
 		String left = String.format("[%3s] %3s: %2d plays, %3d yards ",
 				Printer.numberAsString(quarter), team, numPlays, yards);
@@ -57,9 +75,15 @@ public class Drive {
 		observedPlay += plays.size();
 		observedPlay %= plays.size();
 		Play nextPlay = plays.get(plays.size() - observedPlay - 1);
-		content.append(String.format("\n\n%s", nextPlay.toString(width, true)));
+		content.append(String.format("\n\n%s", nextPlay.toString(width - 3, current && observedPlay == 0)));
 
-		output.append(Printer.decorate(header, generateDefaultModifiers()));
+		if (current) {
+			header = Printer.decorate(header, generateDefaultModifiers());
+		} else {
+			header = Printer.decorate(header, generateUnfocusedModifiers());
+		}
+
+		output.append(header);
 		output.append(content.toString());
 
 		return output.toString();
@@ -71,6 +95,16 @@ public class Drive {
 		modifiers.append(Printer.ANSI_RESET);
 		modifiers.append(Printer.ANSI_BACK_BLACK);
 		modifiers.append(Printer.ANSI_WHITE_BOLD);
+
+		return modifiers.toString();
+	}
+
+	private String generateUnfocusedModifiers () {
+		StringBuilder modifiers = new StringBuilder();
+
+		modifiers.append(Printer.ANSI_RESET);
+		modifiers.append(Printer.ANSI_BACK_BLACK);
+		modifiers.append(Printer.ANSI_WHITE);
 
 		return modifiers.toString();
 	}
