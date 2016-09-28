@@ -36,8 +36,13 @@ public class Play {
 	}
 
 	public String toString (int width, boolean current) {
-		String output = Printer.breakLines(desc, width);
-		output = Printer.fit(output, width, 3);
+		String right = desc.replaceAll("\\([0-9]*:[0-9]*\\) ", "");
+		right = String.format(" %s", right);
+		right = Printer.breakLines(right, width - 9);
+		right = Printer.fit(right, width - 9, 3);
+		String left = String.format("[%5s]", time);
+		left = Printer.fit(left, 8, 3);
+		String output = Printer.align(left, 1, right);
 		return Printer.decorate(output, generateModifiers(current));
 	}
 	

@@ -83,11 +83,11 @@ public class Terminal {
 					case 'q':
 						System.exit(0);
 						break;
-					case 'w':
+					case 's':
 						observedPlay++;
 						manning.refreshSingleView();
 						break;
-					case 's':
+					case 'w':
 						observedPlay--;
 						manning.refreshSingleView();
 						break;
