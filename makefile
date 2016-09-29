@@ -4,4 +4,4 @@ all: src/view/Manning.class
 clean:
 	find bin -iname *.class | xargs rm -f
 run:
-	java -cp .:bin/:lib/json-simple-1.1.1.jar:lib/jline-2.12.jar view/Manning
+	java -cp .:bin/:lib/json-simple-1.1.1.jar:lib/jline-2.12.jar view/Manning $(args)

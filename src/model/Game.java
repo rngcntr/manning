@@ -1,7 +1,6 @@
 package model;
 
 import org.json.simple.*;
-import org.json.simple.parser.*;
 
 public class Game {
 
@@ -11,30 +10,16 @@ public class Game {
 	private String homeShort = "";
 	private String guestShort = "";
 
-	private String homeLong = "";
-	private String guestLong = "";
-	
-	private String day = "";
-	private String time = "";
-
 	private long id = 0L;
 	private String state = "";
 
 	private String lastAction = "";
 
-	public Game (long id) {
-		this.id = id;
-	}
-
-	public static Game fromJSON (String json) {
-		Game output = null;
-
-		JSONParser parser = new JSONParser();
+	public static Game fromJSON (JSONObject jsonObject) {
+		Game output = new Game();
 
 		try {
-			JSONObject jsonObject = (JSONObject) parser.parse(json);
-
-			output = new Game((long) jsonObject.get("eid"));
+			output.id = (long) jsonObject.get("eid");
 			output.state = (String) jsonObject.get("q");
 
 			output.homeScore = (long) jsonObject.get("hs");
@@ -43,18 +28,9 @@ public class Game {
 			output.homeShort = (String) jsonObject.get("h");
 			output.guestShort = (String) jsonObject.get("v");
 			
-			output.homeLong = (String) jsonObject.get("hnn");
-			output.guestLong = (String) jsonObject.get("vnn");
-
-			output.day = (String) jsonObject.get("d");
-			output.time = (String) jsonObject.get("t");
-
 			output.lastAction = (String) jsonObject.get("ga");
 	        //  "gsis": 56933,
 	        //  "rz": -1,
-		} catch (ParseException pex) {
-			System.err.println("Unable to parse Game from JSON");
-			return null;
 		} catch (NullPointerException npex) {
 			System.err.println("Unable to parse Game from JSON");
 			return null;
@@ -63,40 +39,16 @@ public class Game {
 		return output; 
 	}
 
-	public void setHomeScore (long homeScore) {
-		this.homeScore = homeScore;
+	public long getID () {
+		return id;
+	}
+	
+	public String getHome () {
+		return homeShort;
 	}
 
-	public void setGuestScore (long guestScore) {
-		this.guestScore = guestScore;
-	}
-
-	public void setHomeShort (String homeShort) {
-		this.homeShort = homeShort;
-	}
-
-	public void setGuestShort (String guestShort) {
-		this.guestShort = guestShort;
-	}
-
-	public void setHomeLong (String homeLong) {
-		this.homeLong = homeLong;
-	}
-
-	public void setGuestLong (String guestLong) {
-		this.guestLong = guestLong;
-	}
-
-	public void setDay (String day) {
-		this.day = day;
-	}
-
-	public void setTime (String time) {
-		this.time = time;
-	}
-
-	public void setState (String state) {
-		this.state = state;
+	public String getGuest () {
+		return guestShort;
 	}
 
 	public boolean isRunning () {
