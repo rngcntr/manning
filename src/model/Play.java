@@ -44,11 +44,18 @@ public class Play {
 
 	public String toString (int width, boolean current) {
 		String right = desc.replaceAll("\\([0-9]*:[0-9]*\\) ", "");
-		right = String.format(" %s", right);
-		right = Printer.breakLines(right, width - 9);
-		right = Printer.fit(right, width - 9, 3);
-		String left = String.format("[%5s]", time);
-		left = Printer.fit(left, 8, 3);
+		right = String.format("%s", right);
+		right = Printer.breakLines(right, width - 12);
+		right = Printer.fit(right, width - 12, 3);
+
+		String left;
+		if (down != 0) {
+			left = String.format("[%5s]\n%s & %d\n%s", time, Printer.numberAsString(down), toGo, yardLine);
+		} else {
+			left = String.format("[%5s]", time);
+		}
+
+		left = Printer.fit(left, 11, 3);
 		String output = Printer.align(left, 1, right);
 		return Printer.decorate(output, generateModifiers(current));
 	}
@@ -68,7 +75,6 @@ public class Play {
 		lowerSideline.append("▲");
 
 		String[] field = new String[] {
-			String.format("%-127s\n", upperSideline.toString()),
 			"   ╔═════════╤═════════╤═════════╤═════════╤═════════╤═════════╤═════════╤═════════╤═════════╤═════════╤═════════╤═════════╗   \n",
 			"   ║         │        1│0       2│0       3│0       4│0       5│0       4│0       3│0       2│0       1│0        │         ║   \n",
 			"   ║         │         │         │         │         │         │         │         │         │         │         │         ║   \n",
@@ -82,14 +88,51 @@ public class Play {
 			"   ║         │|||||||||│|||||||||│|||||||||│|||||||||│|||||||||│|||||||||│|||||||||│|||||||||│|||||||||│|||||||||│         ║   \n",
 			"   ║         │         │         │         │         │         │         │         │         │         │         │         ║   \n",
 			"   ║         │        1│0       2│0       3│0       4│0       5│0       4│0       3│0       2│0       1│0        │         ║   \n",
-			"   ╚═════════╧═════════╧═════════╧═════════╧═════════╧═════════╧═════════╧═════════╧═════════╧═════════╧═════════╧═════════╝   \n",
-			String.format("%-127s", lowerSideline.toString())};
+			"   ╚═════════╧═════════╧═════════╧═════════╧═════════╧═════════╧═════════╧═════════╧═════════╧═════════╧═════════╧═════════╝   \n"};
 
 		StringBuilder output = new StringBuilder();
 
+		output.append(String.format("%-127s\n", upperSideline.toString()));
 		for (String line : field) {
+			String leftPart;
+			String middlePart;
+			String rightPart;
+			int scrimmage = 13 + yardLineToInt(yardLine, home, guest);
+			int firstDown = 13 + yardLineToInt(yardLine, home, guest);
+			if (team.equals(guest)) {
+				if (down != 0) {
+					firstDown += toGo;
+					leftPart = line.substring(0, firstDown);
+					middlePart = String.valueOf(line.charAt(firstDown));
+					middlePart = Printer.decorate(middlePart, generateFirstDownModifiers(), generateFieldModifiers());
+					rightPart = line.substring(firstDown + 1);
+					line = String.format("%s%s%s", leftPart, middlePart, rightPart);
+				}
+
+				leftPart = line.substring(0, scrimmage);
+				middlePart = String.valueOf(line.charAt(scrimmage));
+				middlePart = Printer.decorate(middlePart, generateScrimmageModifiers(), generateFieldModifiers());
+				rightPart = line.substring(scrimmage + 1);
+				line = String.format("%s%s%s", leftPart, middlePart, rightPart);
+			} else {
+				leftPart = line.substring(0, scrimmage);
+				middlePart = String.valueOf(line.charAt(scrimmage));
+				middlePart = Printer.decorate(middlePart, generateScrimmageModifiers(), generateFieldModifiers());
+				rightPart = line.substring(scrimmage + 1);
+				line = String.format("%s%s%s", leftPart, middlePart, rightPart);
+
+				if (down != 0) {
+					firstDown -= toGo;
+					leftPart = line.substring(0, firstDown);
+					middlePart = String.valueOf(line.charAt(firstDown));
+					middlePart = Printer.decorate(middlePart, generateFirstDownModifiers(), generateFieldModifiers());
+					rightPart = line.substring(firstDown + 1);
+					line = String.format("%s%s%s", leftPart, middlePart, rightPart);
+				}
+			}
 			output.append(line);
 		}
+		output.append(String.format("%-127s", lowerSideline.toString()));
 
 		return Printer.decorate(output.toString(), generateFieldModifiers());
 	}
@@ -102,6 +145,30 @@ public class Play {
 		if (current) {
 			modifiers.append(Printer.ANSI_WHITE_BOLD);
 		}
+
+		return modifiers.toString();
+	}
+
+	private String generateFirstDownModifiers () {
+		StringBuilder modifiers = new StringBuilder();
+
+		modifiers.append(Printer.ANSI_RESET);
+		if (down == 4) {
+			modifiers.append(Printer.ANSI_BACK_RED);
+		} else {
+			modifiers.append(Printer.ANSI_BACK_YELLOW);
+		}
+		modifiers.append(Printer.ANSI_WHITE_BOLD);
+
+		return modifiers.toString();
+	}
+
+	private String generateScrimmageModifiers () {
+		StringBuilder modifiers = new StringBuilder();
+
+		modifiers.append(Printer.ANSI_RESET);
+		modifiers.append(Printer.ANSI_BACK_BLUE);
+		modifiers.append(Printer.ANSI_WHITE_BOLD);
 
 		return modifiers.toString();
 	}
