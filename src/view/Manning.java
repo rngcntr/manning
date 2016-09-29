@@ -4,7 +4,7 @@ import control.*;
 
 public class Manning implements TerminalAUI {
 
-	private static final boolean DEBUG = true;
+	private static final boolean DEBUG = false;
 
 	private ManningController manControl;
 

@@ -30,6 +30,10 @@ public class ManningController {
 			} else {
 				String url = "http://www.nfl.com/liveupdate/game-center/" + observedID + "/" + observedID + "_gtd.json";
 				String json = netControl.get(url);
+				if (json == null) {
+					observedID = -1L;
+					continue;
+				}
 				org.json.simple.JSONObject jsonObject = netControl.parse(json);
 				DetailedGame newGame = DetailedGame.fromJSON(jsonObject, observedID);
 				if (newGame != null) {
@@ -37,6 +41,7 @@ public class ManningController {
 					taui.refreshSingleView();
 				} else {
 					observedID = -1L;
+					continue;
 				}
 			}
 
@@ -57,8 +62,6 @@ public class ManningController {
 		}
 		
 		observedID = gameList.getGame(team);
-		// DEBUG
-		observedID = 2016091810;
 	}
 
 	public void setTerminalAUI (TerminalAUI taui) {
