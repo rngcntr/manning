@@ -51,7 +51,7 @@ public class Terminal {
 		String scoreBox = newGame.getScoreBox();
 		String statsBox = newGame.getStatsBox();
 		String quarterBox = newGame.getQuarterBox();
-		String fieldBox = newGame.getField();
+		String fieldBox = newGame.getField(observedDrive, observedPlay);
 		String driveBox = newGame.getDriveBox(127, observedDrive, observedPlay);
 
 		output.append(Printer.align(Printer.align(scoreBox, 4, statsBox), 4, quarterBox));

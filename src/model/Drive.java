@@ -23,6 +23,9 @@ public class Drive {
 			output.yards = (long) jsonObject.get("ydsgained");
 			output.numPlays = (long) jsonObject.get("numplays");
 			output.quarter = (long) jsonObject.get("qtr");
+			
+			JSONObject driveStart = (JSONObject) jsonObject.get("start");
+			String startLine = (String) driveStart.get("yrdln");
 
 			JSONObject jsonPlays = (JSONObject) jsonObject.get("plays");
 			output.plays = new ArrayList<Play>();
@@ -47,6 +50,7 @@ public class Drive {
 			for (Object key : playKeys) {
 				JSONObject jsonPlay = (JSONObject) jsonPlays.get((String) key);
 				Play newPlay = Play.fromJSON(jsonPlay);
+				newPlay.setStart(startLine);
 				output.plays.add(newPlay);
 			}
 		} catch (NullPointerException npex) {
@@ -87,6 +91,14 @@ public class Drive {
 		output.append(content.toString());
 
 		return output.toString();
+	}
+
+	public String getField (int observedPlay, String home, String guest) {
+		observedPlay %= plays.size();
+		observedPlay += plays.size();
+		observedPlay %= plays.size();
+		Play play = plays.get(plays.size() - observedPlay - 1);
+		return play.getField(home, guest);
 	}
 
 	private String generateDefaultModifiers () {

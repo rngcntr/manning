@@ -146,32 +146,12 @@ public class DetailedGame {
 		return Printer.decorate(quarterBox.toString(), generateDefaultModifiers());
 	}
 
-	public String getField () {
-		String[] field = new String[] {
-			"                                                                                                                               \n",
-			"   ╔═════════╤═════════╤═════════╤═════════╤═════════╤═════════╤═════════╤═════════╤═════════╤═════════╤═════════╤═════════╗   \n",
-			"   ║         │        1│0       2│0       3│0       4│0       5│0       4│0       3│0       2│0       1│0        │         ║   \n",
-			"   ║         │         │         │         │         │         │         │         │         │         │         │         ║   \n",
-			"   ║         │|||||||||│|||||||||│|||||||||│|||||||||│|||||||||│|||||||||│|||||||||│|||||||||│|||||||||│|||||||||│         ║   \n",
-			"   ║         │         │         │         │         │         │         │         │         │         │         │         ║   \n",
-			"   ║         │         │         │         │         │         │         │         │         │         │         │         ║   \n",
-			String.format("   ║   %3s   │         │         │         │         │         │         │         │         │         │         │   %-3s   ║   \n",
-					guest.getName(), home.getName()),
-			"   ║         │         │         │         │         │         │         │         │         │         │         │         ║   \n",
-			"   ║         │         │         │         │         │         │         │         │         │         │         │         ║   \n",
-			"   ║         │|||||||||│|||||||||│|||||||||│|||||||||│|||||||||│|||||||||│|||||||||│|||||||||│|||||||||│|||||||||│         ║   \n",
-			"   ║         │         │         │         │         │         │         │         │         │         │         │         ║   \n",
-			"   ║         │        1│0       2│0       3│0       4│0       5│0       4│0       3│0       2│0       1│0        │         ║   \n",
-			"   ╚═════════╧═════════╧═════════╧═════════╧═════════╧═════════╧═════════╧═════════╧═════════╧═════════╧═════════╧═════════╝   \n",
-			"                                                                                                                               "};
-
-		StringBuilder output = new StringBuilder();
-
-		for (String line : field) {
-			output.append(line);
-		}
-
-		return Printer.decorate(output.toString(), generateFieldModifiers());
+	public String getField (int observedDrive, int observedPlay) {
+		observedDrive %= drives.size();
+		observedDrive += drives.size();
+		observedDrive %= drives.size();
+		Drive toShow = drives.get(drives.size() - 1 - observedDrive);
+		return toShow.getField(observedPlay, home.getName(), guest.getName());
 	}
 
 	public String getDriveBox (int width, int observedDrive, int observedPlay) {
@@ -192,16 +172,6 @@ public class DetailedGame {
 
 		modifiers.append(Printer.ANSI_RESET);
 		modifiers.append(Printer.ANSI_BACK_BLACK);
-		modifiers.append(Printer.ANSI_WHITE_BOLD);
-
-		return modifiers.toString();
-	}
-
-	private String generateFieldModifiers () {
-		StringBuilder modifiers = new StringBuilder();
-
-		modifiers.append(Printer.ANSI_RESET);
-		modifiers.append(Printer.ANSI_BACK_GREEN);
 		modifiers.append(Printer.ANSI_WHITE_BOLD);
 
 		return modifiers.toString();
