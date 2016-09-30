@@ -2,14 +2,14 @@
 
 ### What is this? ###
 
-*manning* is a text based live ticker for NFL Games. All live data is collected from NFLs official site where it is publicly available in JSON format. Sources are
+*manning* is a text based live ticker for NFL games. All live data is collected from NFL's official site where it is publicly available in JSON format. Sources are
 
 * www.nfl.com/liveupdate/scorestrip/ss.json (for week overview)
-* www.nfl.com/liveupdate/game-center/<ID>/<ID>_gtd.json (for single games where <ID> matches the JSON Attribute "eid" found at the link above)
+* www.nfl.com/liveupdate/game-center/<ID>/<ID>_gtd.json (for single games where <ID> matches the JSON attribute "eid" found at the link above)
 
 ### System requirements ###
 
-In order to use manning, you'll need Java 8 installed. As Java 8 is available for almost any operating system, this shouldn't be a problem in most cases. In addition, manning is designed and developed to run in UNIX terminals. Due to lack of color support, the single game view is not guaranteed to work (in other words: will definitely not work) in Windows terminals.
+In order to use manning, you'll need Java 8 installed. As Java 8 is available for almost any operating system, this shouldn't be a problem in most cases. In addition, manning is designed and developed to run in UNIX terminals. Due to lack of color support, the single game view is not guaranteed to work (in other words: will definitely not work) in Windows terminals. However, it may be possible to run the overview, since it does not make use of color codes.  
 
 ### Hot to set up ###
 
