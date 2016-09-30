@@ -15,7 +15,7 @@ In order to use manning, you'll need Java 8 installed. As Java 8 is available fo
 
 1. Clone this repository using the following command:
 ```git clone https://rngcntr@bitbucket.org/rngcntr/manning.git```
-2. Next, create a bin folder right next to the existing src, and lib folders. All of your .class files will end up here.
+2. Next, create a bin folder right next to the existing src and lib folders. All of your .class files will end up here.
 3. Compile the source files. Simply run ```make``` inside your manning folder.
 
 ### Basic usage ###
