@@ -28,4 +28,4 @@ The more complex perspective is designed for following single games. Therefore, 
 
 ### I found errors! ###
 
-This programm is by far not error-free. Feel free to report issues and I'll see what I can do ;)
+This piece of software is by far not error-free. Feel free to report issues and I'll see what I can do ;)
