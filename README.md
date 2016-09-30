@@ -21,7 +21,9 @@ In order to use manning, you'll need Java 8 installed. As Java 8 is available fo
 ### Basic usage ###
 
 There are two different views provided by manning which cover an overview of all games as well as detailed information of a single game.
+
 In order to start the overview, all you need to do is run ```make run``` inside the manning folder. The only further option there is pressing 'q' to exit the program.
+
 The more complex perspective is designed for following single games. Therefore, start manning by running ```make args=<TEAM> run``` where <TEAM> stands for the two or three letter abbreviation of the team you're interested in (if you don't know these abbrevations, head over to overview). Here you can use 'a' and 'd' to navigate through the game's drives and 'w' and 's' to navigate through a drive's plays. No matter how far you have scrolled, typing '0' will always bring you back to the latest available play.
 
 ### I found errors! ###
