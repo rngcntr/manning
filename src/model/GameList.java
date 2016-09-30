@@ -2,7 +2,6 @@ package model;
 
 import java.util.*;
 import org.json.simple.*;
-import org.json.simple.parser.*;
 
 public class GameList {
 
@@ -13,14 +12,10 @@ public class GameList {
 		this.games = new ArrayList<Game>();
 	}
 
-	public static GameList fromJSON (String json) {
+	public static GameList fromJSON (JSONObject jsonObject) {
 		GameList output = new GameList();
 
-		JSONParser parser = new JSONParser();
-
 		try {
-			JSONObject jsonObject = (JSONObject) parser.parse(json);
-
 			long week = (long) jsonObject.get("w");
 			output.week = week;
 
@@ -29,14 +24,25 @@ public class GameList {
 
 			while (iterator.hasNext()) {
 				JSONObject nextGameJSON = (JSONObject) iterator.next();
-				Game nextGame = Game.fromJSON(nextGameJSON.toJSONString());
+				Game nextGame = Game.fromJSON(nextGameJSON);
 				output.games.add(nextGame);
 			}
-		} catch (ParseException e) {
-				e.printStackTrace();
+		} catch (NullPointerException npex) {
+			System.err.println("Unable to parse GameList from JSON");
+			return null;
 		}
 
 		return output; 
+	}
+
+	public long getGame (String team) {
+		for (Game game : games) {
+			if (team.equals(game.getHome()) || team.equals(game.getGuest())) {
+				return game.getID();
+			}
+		}
+
+		return -1L;
 	}
 
 	public String toString() {
@@ -65,9 +71,6 @@ public class GameList {
 				output.append(nextGame);
 			}
 		}
-
-		String timeStamp = String.format("Last updated: %s", Printer.getCurrentTimeStamp());
-		output.append(String.format("\n%52s\n", timeStamp));
 
 		return output.toString();
 	}
