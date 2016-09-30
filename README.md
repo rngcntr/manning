@@ -9,9 +9,9 @@
 
 ### System requirements ###
 
-In order to use manning, you'll need Java 8 installed. As Java 8 is available for almost any operating system, this shouldn't be a problem in most cases. In addition, manning is designed and developed to run in UNIX terminals. Due to lack of color support, the single game view is not guaranteed to work (in other words: will definitely not work) in Windows terminals. However, it may be possible to run the overview, since it does not make use of color codes.  
+In order to use manning, you'll need Java 8 installed. As Java 8 is available for almost any operating system, this shouldn't be a problem in most cases. In addition, manning is designed and developed to run in UNIX terminals. Due to the lack of color support, the single game view is not guaranteed to work (in other words: will definitely not work) in Windows terminals. However, it may be possible to run the overview, since it does not use color codes.  
 
-### Hot to set up ###
+### How to set up ###
 
 1. Clone this repository using the following command:
 ```git clone https://rngcntr@bitbucket.org/rngcntr/manning.git```
