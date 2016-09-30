@@ -51,6 +51,7 @@ public class Terminal {
 		String scoreBox = newGame.getScoreBox();
 		String statsBox = newGame.getStatsBox();
 		String quarterBox = newGame.getQuarterBox();
+		synchronizeObservers(newGame);
 		String fieldBox = newGame.getField(observedDrive, observedPlay);
 		String driveBox = newGame.getDriveBox(127, observedDrive, observedPlay);
 
@@ -65,6 +66,19 @@ public class Terminal {
 		clearScreen();
 		System.out.println(output.toString());
 		lineCount = output.toString().split("\n").length;
+	}
+
+	private void synchronizeObservers (DetailedGame game) {
+		int driveCount = game.getDriveCount();
+		observedDrive %= driveCount;
+		observedDrive += driveCount;
+		observedDrive %= driveCount;
+
+		Drive observedD = game.getDrive(observedDrive);
+		int playCount = observedD.getPlayCount();
+		observedPlay %= playCount;
+		observedPlay += playCount;
+		observedPlay %= playCount;
 	}
 
 	private void clearScreen () {

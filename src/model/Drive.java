@@ -75,9 +75,6 @@ public class Drive {
 		String header = String.format("%s%s%s", left, Printer.generateSpace(space), result);
 		StringBuilder content = new StringBuilder();
 		
-		observedPlay %= plays.size();
-		observedPlay += plays.size();
-		observedPlay %= plays.size();
 		Play nextPlay = plays.get(plays.size() - observedPlay - 1);
 		content.append(String.format("\n\n%s", nextPlay.toString(width - 3, current && observedPlay == 0)));
 
@@ -94,11 +91,12 @@ public class Drive {
 	}
 
 	public String getField (int observedPlay, String home, String guest) {
-		observedPlay %= plays.size();
-		observedPlay += plays.size();
-		observedPlay %= plays.size();
 		Play play = plays.get(plays.size() - observedPlay - 1);
 		return play.getField(home, guest);
+	}
+
+	public int getPlayCount () {
+		return plays.size();
 	}
 
 	private String generateDefaultModifiers () {
