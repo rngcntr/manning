@@ -63,6 +63,10 @@ public class Drive {
 	}
 
 	public String toString (int width, boolean current, int observedPlay) {
+		if (plays.isEmpty()) {
+			return "";
+		}
+
 		StringBuilder output = new StringBuilder();
 		String left = String.format("[%3s] %3s: %2d plays, %3d yards ",
 				Printer.numberAsString(quarter), team, numPlays, yards);
