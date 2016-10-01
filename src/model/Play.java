@@ -94,6 +94,11 @@ public class Play {
 
 		output.append(String.format("%-127s\n", upperSideline.toString()));
 		for (String line : field) {
+			if (team.equals("")) {
+				output.append(line);
+				continue;
+			}
+
 			String leftPart;
 			String middlePart;
 			String rightPart;

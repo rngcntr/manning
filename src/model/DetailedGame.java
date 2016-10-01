@@ -23,33 +23,34 @@ public class DetailedGame {
 	public static DetailedGame fromJSON (JSONObject jsonObject, long id) {
 		DetailedGame output = new DetailedGame();
 
+		JSONObject game = (JSONObject) jsonObject.get(String.valueOf(id));
+
+		JSONObject homeTeam = (JSONObject) game.get("home");
+		output.home = Team.fromJSON(homeTeam);
+
+		JSONObject guestTeam = (JSONObject) game.get("away");
+		output.guest = Team.fromJSON(guestTeam);
+
+		output.state = (String) game.get("qtr");
+		output.yardLine = (String) game.get("yl");
+
 		try {
-			JSONObject game = (JSONObject) jsonObject.get(String.valueOf(id));
-
-			JSONObject homeTeam = (JSONObject) game.get("home");
-			output.home = Team.fromJSON(homeTeam);
-
-			JSONObject guestTeam = (JSONObject) game.get("away");
-			output.guest = Team.fromJSON(guestTeam);
-
-			output.state = (String) game.get("qtr");
-			output.yardLine = (String) game.get("yl");
 			output.down = (long) game.get("down");
-			output.toGo = (long) game.get("togo");
-			output.clock = (String) game.get("clock");
-			output.posTeam = (String) game.get("posteam");
-
-			output.drives = new ArrayList<Drive>();
-			JSONObject jsonDrives = (JSONObject) game.get("drives");
-			output.currentDrive = (long) jsonDrives.get("crntdrv");
-
-			for (int driveCount = 1; driveCount < output.currentDrive; driveCount++) {
-				JSONObject nextDrive = (JSONObject) jsonDrives.get(String.valueOf(driveCount));
-				output.drives.add(Drive.fromJSON(nextDrive));
-			}
 		} catch (NullPointerException npex) {
-			System.err.println("Unable to parse DetailedGame from JSON");
-			return null;
+			output.down = 0L;
+		}
+
+		output.toGo = (long) game.get("togo");
+		output.clock = (String) game.get("clock");
+		output.posTeam = (String) game.get("posteam");
+
+		output.drives = new ArrayList<Drive>();
+		JSONObject jsonDrives = (JSONObject) game.get("drives");
+		output.currentDrive = (long) jsonDrives.get("crntdrv");
+
+		for (int driveCount = 1; driveCount <= output.currentDrive; driveCount++) {
+			JSONObject nextDrive = (JSONObject) jsonDrives.get(String.valueOf(driveCount));
+			output.drives.add(Drive.fromJSON(nextDrive));
 		}
 
 		return output; 
@@ -96,10 +97,18 @@ public class DetailedGame {
 		if (state.equals("Final")) {
 			scoreBox.append(String.format(" ║%s    Final    %s║ \n",
 						guest.getTimeoutsAsString(true), home.getTimeoutsAsString(false)));
+		} else if (state.equals("Pregame")) {
+			scoreBox.append(String.format(" ║%s   Pregame   %s║ \n",
+						guest.getTimeoutsAsString(true), home.getTimeoutsAsString(false)));
 		} else {
-			scoreBox.append(String.format(" ║%s  %3s & %2d   %s║ \n",
-						guest.getTimeoutsAsString(true), Printer.numberAsString(down),
-						toGo, home.getTimeoutsAsString(false)));
+			if (down == 0) {
+				scoreBox.append(String.format(" ║%s             %s║ \n",
+							guest.getTimeoutsAsString(true), home.getTimeoutsAsString(false)));
+			} else {
+				scoreBox.append(String.format(" ║%s  %3s & %2d   %s║ \n",
+							guest.getTimeoutsAsString(true), Printer.numberAsString(down),
+							toGo, home.getTimeoutsAsString(false)));
+			}
 		}
 		scoreBox.append(" ╚═══════════════════════════╝ \n");
 
@@ -155,6 +164,10 @@ public class DetailedGame {
 	}
 
 	public String getField (int observedDrive, int observedPlay) {
+		if (drives.isEmpty()) {
+			return "";
+		}
+
 		Drive toShow = drives.get(drives.size() - 1 - observedDrive);
 		return toShow.getField(observedPlay, home.getName(), guest.getName());
 	}
