@@ -76,6 +76,14 @@ public class DetailedGame {
 		return running;
 	}
 
+	public int getDriveCount () {
+		return drives.size();
+	}
+
+	public Drive getDrive (int num) {
+		return drives.get(drives.size() - num - 1);
+	}
+
 	public String getScoreBox () {
 		StringBuilder scoreBox = new StringBuilder();
 
@@ -160,9 +168,6 @@ public class DetailedGame {
 			return "";
 		}
 
-		observedDrive %= drives.size();
-		observedDrive += drives.size();
-		observedDrive %= drives.size();
 		Drive toShow = drives.get(drives.size() - 1 - observedDrive);
 		return toShow.getField(observedPlay, home.getName(), guest.getName());
 	}
@@ -172,9 +177,6 @@ public class DetailedGame {
 			return "";
 		}
 
-		observedDrive %= drives.size();
-		observedDrive += drives.size();
-		observedDrive %= drives.size();
 		Drive toShow = drives.get(drives.size() - 1 - observedDrive);
 
 		return toShow.toString(width, observedDrive == 0, observedPlay);
