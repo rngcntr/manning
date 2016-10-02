@@ -71,8 +71,11 @@ public class Play {
 			lowerSideline.append(Printer.generateSpace(13 + yardLineToInt(driveStart, home, guest) - yards));
 		}
 
-		upperSideline.append("▼");
-		lowerSideline.append("▲");
+		if (!team.equals("") && (note == null ||
+				(!note.equals("XP") && !note.equals("FG") && !note.equals("PUNT")))) {
+			upperSideline.append("▼");
+			lowerSideline.append("▲");
+		}
 
 		String[] field = new String[] {
 			"   ╔═════════╤═════════╤═════════╤═════════╤═════════╤═════════╤═════════╤═════════╤═════════╤═════════╤═════════╤═════════╗   \n",
