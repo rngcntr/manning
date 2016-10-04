@@ -7,7 +7,7 @@ public class ManningController {
 
 	private NetworkController netControl;
 
-	private TerminalAUI taui;
+	private ManningAUI maui;
 
 	private GameList gameList;
 	private DetailedGame detailedGame;
@@ -19,26 +19,27 @@ public class ManningController {
 
 	public void run () {
 		while (true) {
-			if (observedID == -1L) {
+			long currentID = observedID;
+			if (currentID == -1L) {
 				String url = "http://www.nfl.com/liveupdate/scorestrip/ss.json";
 				String json = netControl.get(url);
 				GameList newGameList = GameList.fromJSON(netControl.parse(json));
 				if (newGameList != null) {
 					gameList = newGameList;
-					taui.refreshOverview();
+					maui.update();
 				}
 			} else {
-				String url = "http://www.nfl.com/liveupdate/game-center/" + observedID + "/" + observedID + "_gtd.json";
+				String url = "http://www.nfl.com/liveupdate/game-center/" + currentID + "/" + currentID + "_gtd.json";
 				String json = netControl.get(url);
 				if (json == null) {
 					observedID = -1L;
 					continue;
 				}
 				org.json.simple.JSONObject jsonObject = netControl.parse(json);
-				DetailedGame newGame = DetailedGame.fromJSON(jsonObject, observedID);
+				DetailedGame newGame = DetailedGame.fromJSON(jsonObject, currentID);
 				if (newGame != null) {
 					detailedGame = newGame;
-					taui.refreshSingleView();
+					maui.update();
 				} else {
 					observedID = -1L;
 					continue;
@@ -54,7 +55,7 @@ public class ManningController {
 	}
 
 	public void observeGame (String team) {
-		taui.showLoadingMessage();
+		maui.update();
 
 		while (gameList == null) {
 			String json = netControl.get("http://www.nfl.com/liveupdate/scorestrip/ss.json");
@@ -64,8 +65,12 @@ public class ManningController {
 		observedID = gameList.getGame(team);
 	}
 
-	public void setTerminalAUI (TerminalAUI taui) {
-		this.taui = taui;
+	public boolean observingGame () {
+		return observedID != -1L;
+	}
+
+	public void setManningAUI (ManningAUI maui) {
+		this.maui = maui;
 	}
 
 	public NetworkController getNetworkController () {

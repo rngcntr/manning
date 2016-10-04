@@ -15,12 +15,6 @@ public class Terminal {
 	private int observedDrive = 0;
 	private int observedPlay = 0;
 
-	private static final int LOADING = 0;
-	private static final int OVERVIEW = 1;
-	private static int SINGLE = 2;
-
-	private int mode;
-
 	public Terminal (Manning manning) {
 		this.manning = manning;
 
@@ -33,15 +27,25 @@ public class Terminal {
 		new Thread (() -> listenForInput()).start();
 	}
 
+	synchronized String askForTeam () {
+		manning.setMode(Manning.INPUT);
+		clearScreen();
+		try {
+			String team = console.readLine("Select a team > ");
+			lineCount = 1;
+			return team.toUpperCase();
+		} catch (IOException ioex) {
+			return "";
+		}
+	}
+
 	synchronized void showLoadingMessage () {
-		mode = LOADING;
 		clearScreen();
 		System.out.println(" Loading web resource. Please wait...");
 		lineCount = 1;
 	}
 
 	synchronized void refreshOverview (GameList newGameList) {
-		mode = OVERVIEW;
 		StringBuilder output = new StringBuilder();
 		
 		output.append(newGameList.toString());
@@ -52,9 +56,8 @@ public class Terminal {
 		System.out.println(output.toString());
 		lineCount = output.toString().split("\n").length;
 	}
-	
+
 	synchronized void refreshSingleView (DetailedGame newGame) {
-		mode = SINGLE;
 		StringBuilder output = new StringBuilder();
 		
 		String scoreBox = newGame.getScoreBox();
@@ -91,52 +94,62 @@ public class Terminal {
 	}
 
 	private void clearScreen () {
-		if(lineCount > 0) {
-			System.out.printf("\033[%dA", lineCount);
+		while (lineCount > 0) {
+			System.out.printf("\033[A");
 			System.out.printf("\033[2K");
+			lineCount--;
 		}
 	}
 
 	private void listenForInput () {
 		try {
 			while (true) {
-				char input = (char) console.readCharacter(new char[]{'q', 'w', 'a', 's', 'd', '0'});
+				char input = (char) console.readCharacter(new char[]{'q', 'w', 'a', 's', 'd', '0', 'c'});
 
 				switch (input) {
 					case 'q':
-						System.exit(0);
+						manning.quit();
 						break;
 					case 's':
-						if (mode == SINGLE) {
+						if (manning.getMode() == Manning.SINGLE) {
 							observedPlay++;
-							manning.refreshSingleView();
+							manning.update();
 						}
 						break;
 					case 'w':
-						if (mode == SINGLE) {
+						if (manning.getMode() == Manning.SINGLE) {
 							observedPlay--;
-							manning.refreshSingleView();
+							manning.update();
 						}
 						break;
 					case 'a':
-						if (mode == SINGLE) {
+						if (manning.getMode() == Manning.SINGLE) {
 							observedDrive++;
 							observedPlay = 0;
-							manning.refreshSingleView();
+							manning.update();
 						}
 						break;
 					case 'd':
-						if (mode == SINGLE) {
+						if (manning.getMode() == Manning.SINGLE) {
 							observedDrive--;
 							observedPlay = 0;
-							manning.refreshSingleView();
+							manning.update();
 						}
 						break;
 					case '0':
-						if (mode == SINGLE) {
+						if (manning.getMode() == Manning.SINGLE) {
 							observedDrive = 0;
 							observedPlay = 0;
-							manning.refreshSingleView();
+							manning.update();
+						}
+						break;
+					case 'c':
+						if (manning.getMode() == Manning.SINGLE) {
+							manning.setMode(Manning.OVERVIEW);
+							manning.update();
+						} else if (manning.getMode() == Manning.OVERVIEW) {
+							manning.setMode(Manning.SINGLE);
+							// Do not update, wait for resources to load.
 						}
 						break;
 				}
@@ -145,5 +158,4 @@ public class Terminal {
 			System.exit(0);
 		}
 	}
-
 }

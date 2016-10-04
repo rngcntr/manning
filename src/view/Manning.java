@@ -1,8 +1,9 @@
 package view;
 
 import control.*;
+import model.*;
 
-public class Manning implements TerminalAUI {
+public class Manning implements ManningAUI {
 
 	private static final boolean DEBUG = true;
 
@@ -10,6 +11,13 @@ public class Manning implements TerminalAUI {
 
 	private Terminal terminal;
 	private String observedTeam = "";
+
+	public static final int LOADING = 0;
+	public static final int OVERVIEW = 1;
+	public static final int SINGLE = 2;
+	public static final int INPUT = 3;
+
+	private int mode;
 
 	public static void main (String[] args) {
 		if (!DEBUG) {
@@ -27,26 +35,70 @@ public class Manning implements TerminalAUI {
 		this.observedTeam = observedTeam;
 
 		terminal = new Terminal(this);
+		terminal.showLoadingMessage();
 
 		manControl = new ManningController();
-		manControl.setTerminalAUI(this);
+		manControl.setManningAUI(this);
 		manControl.observeGame(observedTeam);
+
+		if (manControl.observingGame()) {
+			mode = SINGLE;
+		} else {
+			mode = OVERVIEW;
+		}
+
 		manControl.run();
 	}
 
-	public void showLoadingMessage () {
-		terminal.showLoadingMessage();
-	}
-
-	public void refreshOverview () {
-		terminal.refreshOverview(manControl.getGameList());
-	}
-
-	public void refreshSingleView () {
-		terminal.refreshSingleView(manControl.getDetailedGame());
-	}
-
-	public ManningController getManningController() {
+	ManningController getManningController () {
 		return manControl;
+	}
+
+	void setMode (int mode) {
+		if (mode == SINGLE) {
+			mode = INPUT;
+			String team = terminal.askForTeam();
+			mode = LOADING;
+			terminal.showLoadingMessage();
+			manControl.observeGame(team);
+
+			if (manControl.observingGame()) {
+				mode = SINGLE;
+			} else {
+				mode = OVERVIEW;
+			}
+		}
+
+		this.mode = mode;
+	}
+
+	int getMode () {
+		return mode;
+	}
+
+	public void update () {
+		switch (mode) {
+			case OVERVIEW:
+				GameList gameList = manControl.getGameList();
+				if (gameList != null)
+					terminal.refreshOverview(gameList);
+				break;
+			case SINGLE:
+				DetailedGame detailedGame = manControl.getDetailedGame();
+				if (detailedGame != null) {
+					terminal.refreshSingleView(detailedGame);
+				}
+				break;
+			case INPUT:
+				break;
+			case LOADING:
+				break;
+			default:
+				break;
+		}
+	}
+
+	public void quit () {
+		System.exit(0);
 	}
 }
