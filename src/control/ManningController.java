@@ -19,25 +19,28 @@ public class ManningController {
 
 	public void run () {
 		while (true) {
-			if (observedID == -1L) {
+			long currentID = observedID;
+			if (currentID == -1L) {
 				String url = "http://www.nfl.com/liveupdate/scorestrip/ss.json";
 				String json = netControl.get(url);
 				GameList newGameList = GameList.fromJSON(netControl.parse(json));
 				if (newGameList != null) {
 					gameList = newGameList;
+					if (observedID != currentID) continue;
 					taui.refreshOverview();
 				}
 			} else {
-				String url = "http://www.nfl.com/liveupdate/game-center/" + observedID + "/" + observedID + "_gtd.json";
+				String url = "http://www.nfl.com/liveupdate/game-center/" + currentID + "/" + currentID + "_gtd.json";
 				String json = netControl.get(url);
 				if (json == null) {
 					observedID = -1L;
 					continue;
 				}
 				org.json.simple.JSONObject jsonObject = netControl.parse(json);
-				DetailedGame newGame = DetailedGame.fromJSON(jsonObject, observedID);
+				DetailedGame newGame = DetailedGame.fromJSON(jsonObject, currentID);
 				if (newGame != null) {
 					detailedGame = newGame;
+					if (observedID != currentID) continue;
 					taui.refreshSingleView();
 				} else {
 					observedID = -1L;

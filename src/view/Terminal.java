@@ -52,7 +52,7 @@ public class Terminal {
 		System.out.println(output.toString());
 		lineCount = output.toString().split("\n").length;
 	}
-	
+
 	synchronized void refreshSingleView (DetailedGame newGame) {
 		mode = SINGLE;
 		StringBuilder output = new StringBuilder();
@@ -91,16 +91,17 @@ public class Terminal {
 	}
 
 	private void clearScreen () {
-		if(lineCount > 0) {
-			System.out.printf("\033[%dA", lineCount);
+		while (lineCount > 0) {
+			System.out.printf("\033[A");
 			System.out.printf("\033[2K");
+			lineCount--;
 		}
 	}
 
 	private void listenForInput () {
 		try {
 			while (true) {
-				char input = (char) console.readCharacter(new char[]{'q', 'w', 'a', 's', 'd', '0'});
+				char input = (char) console.readCharacter(new char[]{'q', 'w', 'a', 's', 'd', '0', 'c'});
 
 				switch (input) {
 					case 'q':
@@ -137,6 +138,12 @@ public class Terminal {
 							observedDrive = 0;
 							observedPlay = 0;
 							manning.refreshSingleView();
+						}
+						break;
+					case 'c':
+						if (mode == SINGLE) {
+							manning.getManningController().observeGame("");
+							manning.refreshOverview();
 						}
 						break;
 				}
