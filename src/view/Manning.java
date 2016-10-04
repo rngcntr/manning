@@ -1,6 +1,7 @@
 package view;
 
 import control.*;
+import model.*;
 
 public class Manning implements ManningAUI {
 
@@ -78,10 +79,15 @@ public class Manning implements ManningAUI {
 	public void update () {
 		switch (mode) {
 			case OVERVIEW:
-				terminal.refreshOverview(manControl.getGameList());
+				GameList gameList = manControl.getGameList();
+				if (gameList != null)
+					terminal.refreshOverview(gameList);
 				break;
 			case SINGLE:
-				terminal.refreshSingleView(manControl.getDetailedGame());
+				DetailedGame detailedGame = manControl.getDetailedGame();
+				if (detailedGame != null) {
+					terminal.refreshSingleView(detailedGame);
+				}
 				break;
 			case INPUT:
 				break;
