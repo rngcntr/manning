@@ -7,7 +7,7 @@ public class ManningController {
 
 	private NetworkController netControl;
 
-	private TerminalAUI taui;
+	private ManningAUI maui;
 
 	private GameList gameList;
 	private DetailedGame detailedGame;
@@ -26,8 +26,7 @@ public class ManningController {
 				GameList newGameList = GameList.fromJSON(netControl.parse(json));
 				if (newGameList != null) {
 					gameList = newGameList;
-					if (observedID != currentID) continue;
-					taui.refreshOverview();
+					maui.update();
 				}
 			} else {
 				String url = "http://www.nfl.com/liveupdate/game-center/" + currentID + "/" + currentID + "_gtd.json";
@@ -40,8 +39,7 @@ public class ManningController {
 				DetailedGame newGame = DetailedGame.fromJSON(jsonObject, currentID);
 				if (newGame != null) {
 					detailedGame = newGame;
-					if (observedID != currentID) continue;
-					taui.refreshSingleView();
+					maui.update();
 				} else {
 					observedID = -1L;
 					continue;
@@ -57,7 +55,7 @@ public class ManningController {
 	}
 
 	public void observeGame (String team) {
-		taui.showLoadingMessage();
+		maui.update();
 
 		while (gameList == null) {
 			String json = netControl.get("http://www.nfl.com/liveupdate/scorestrip/ss.json");
@@ -67,8 +65,12 @@ public class ManningController {
 		observedID = gameList.getGame(team);
 	}
 
-	public void setTerminalAUI (TerminalAUI taui) {
-		this.taui = taui;
+	public boolean observingGame () {
+		return observedID != -1L;
+	}
+
+	public void setManningAUI (ManningAUI maui) {
+		this.maui = maui;
 	}
 
 	public NetworkController getNetworkController () {

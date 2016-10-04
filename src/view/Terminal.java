@@ -15,12 +15,6 @@ public class Terminal {
 	private int observedDrive = 0;
 	private int observedPlay = 0;
 
-	private static final int LOADING = 0;
-	private static final int OVERVIEW = 1;
-	private static int SINGLE = 2;
-
-	private int mode;
-
 	public Terminal (Manning manning) {
 		this.manning = manning;
 
@@ -33,15 +27,24 @@ public class Terminal {
 		new Thread (() -> listenForInput()).start();
 	}
 
+	synchronized void askForGame () {
+		manning.setMode(Manning.INPUT);
+		clearScreen();
+		try {
+			String team = console.readLine("Select a team > ");
+			lineCount = 2;
+		} catch (IOException ioex) {
+			manning.quit();
+		}
+	}
+
 	synchronized void showLoadingMessage () {
-		mode = LOADING;
 		clearScreen();
 		System.out.println(" Loading web resource. Please wait...");
 		lineCount = 1;
 	}
 
 	synchronized void refreshOverview (GameList newGameList) {
-		mode = OVERVIEW;
 		StringBuilder output = new StringBuilder();
 		
 		output.append(newGameList.toString());
@@ -54,7 +57,6 @@ public class Terminal {
 	}
 
 	synchronized void refreshSingleView (DetailedGame newGame) {
-		mode = SINGLE;
 		StringBuilder output = new StringBuilder();
 		
 		String scoreBox = newGame.getScoreBox();
@@ -105,45 +107,45 @@ public class Terminal {
 
 				switch (input) {
 					case 'q':
-						System.exit(0);
+						manning.quit();
 						break;
 					case 's':
-						if (mode == SINGLE) {
+						if (manning.getMode() == Manning.SINGLE) {
 							observedPlay++;
-							manning.refreshSingleView();
+							manning.update();
 						}
 						break;
 					case 'w':
-						if (mode == SINGLE) {
+						if (manning.getMode() == Manning.SINGLE) {
 							observedPlay--;
-							manning.refreshSingleView();
+							manning.update();
 						}
 						break;
 					case 'a':
-						if (mode == SINGLE) {
+						if (manning.getMode() == Manning.SINGLE) {
 							observedDrive++;
 							observedPlay = 0;
-							manning.refreshSingleView();
+							manning.update();
 						}
 						break;
 					case 'd':
-						if (mode == SINGLE) {
+						if (manning.getMode() == Manning.SINGLE) {
 							observedDrive--;
 							observedPlay = 0;
-							manning.refreshSingleView();
+							manning.update();
 						}
 						break;
 					case '0':
-						if (mode == SINGLE) {
+						if (manning.getMode() == Manning.SINGLE) {
 							observedDrive = 0;
 							observedPlay = 0;
-							manning.refreshSingleView();
+							manning.update();
 						}
 						break;
 					case 'c':
-						if (mode == SINGLE) {
-							manning.getManningController().observeGame("");
-							manning.refreshOverview();
+						if (manning.getMode() == Manning.SINGLE) {
+							manning.setMode(Manning.OVERVIEW);
+							manning.update();
 						}
 						break;
 				}
@@ -152,5 +154,4 @@ public class Terminal {
 			System.exit(0);
 		}
 	}
-
 }
