@@ -27,14 +27,15 @@ public class Terminal {
 		new Thread (() -> listenForInput()).start();
 	}
 
-	synchronized void askForGame () {
+	synchronized String askForTeam () {
 		manning.setMode(Manning.INPUT);
 		clearScreen();
 		try {
 			String team = console.readLine("Select a team > ");
-			lineCount = 2;
+			lineCount = 1;
+			return team.toUpperCase();
 		} catch (IOException ioex) {
-			manning.quit();
+			return "";
 		}
 	}
 
@@ -146,6 +147,9 @@ public class Terminal {
 						if (manning.getMode() == Manning.SINGLE) {
 							manning.setMode(Manning.OVERVIEW);
 							manning.update();
+						} else if (manning.getMode() == Manning.OVERVIEW) {
+							manning.setMode(Manning.SINGLE);
+							// Do not update, wait for resources to load.
 						}
 						break;
 				}

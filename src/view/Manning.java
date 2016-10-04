@@ -54,6 +54,20 @@ public class Manning implements ManningAUI {
 	}
 
 	void setMode (int mode) {
+		if (mode == SINGLE) {
+			mode = INPUT;
+			String team = terminal.askForTeam();
+			mode = LOADING;
+			terminal.showLoadingMessage();
+			manControl.observeGame(team);
+
+			if (manControl.observingGame()) {
+				mode = SINGLE;
+			} else {
+				mode = OVERVIEW;
+			}
+		}
+
 		this.mode = mode;
 	}
 
@@ -70,6 +84,8 @@ public class Manning implements ManningAUI {
 				terminal.refreshSingleView(manControl.getDetailedGame());
 				break;
 			case INPUT:
+				break;
+			case LOADING:
 				break;
 			default:
 				break;
