@@ -80,13 +80,17 @@ public class Manning implements ManningAUI {
 		switch (mode) {
 			case OVERVIEW:
 				GameList gameList = manControl.getGameList();
-				if (gameList != null)
+				if (gameList != null) {
 					terminal.refreshOverview(gameList);
+				}
 				break;
 			case SINGLE:
 				DetailedGame detailedGame = manControl.getDetailedGame();
 				if (detailedGame != null) {
 					terminal.refreshSingleView(detailedGame);
+				} else {
+					mode = OVERVIEW;
+					manControl.observeGame("");
 				}
 				break;
 			case INPUT:

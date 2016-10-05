@@ -55,8 +55,6 @@ public class ManningController {
 	}
 
 	public void observeGame (String team) {
-		maui.update();
-
 		while (gameList == null) {
 			String json = netControl.get("http://www.nfl.com/liveupdate/scorestrip/ss.json");
 			gameList = GameList.fromJSON(netControl.parse(json));
