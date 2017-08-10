@@ -82,15 +82,23 @@ public class Terminal {
 
 	private void synchronizeObservers (DetailedGame game) {
 		int driveCount = game.getDriveCount();
-		observedDrive %= driveCount;
-		observedDrive += driveCount;
-		observedDrive %= driveCount;
+		if (driveCount > 0) {
+			observedDrive %= driveCount;
+			observedDrive += driveCount;
+			observedDrive %= driveCount;
+		} else {
+			observedDrive = 0;
+		}
 
 		Drive observedD = game.getDrive(observedDrive);
 		int playCount = observedD.getPlayCount();
-		observedPlay %= playCount;
-		observedPlay += playCount;
-		observedPlay %= playCount;
+		if (playCount > 0) {
+			observedPlay %= playCount;
+			observedPlay += playCount;
+			observedPlay %= playCount;
+		} else {
+			observedPlay = 0;
+		}
 	}
 
 	private void clearScreen () {
