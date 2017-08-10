@@ -81,7 +81,11 @@ public class DetailedGame {
 	}
 
 	public Drive getDrive (int num) {
-		return drives.get(drives.size() - num - 1);
+		if (drives.size() - num  < 1) {
+			return null;
+		} else {
+			return drives.get(drives.size() - num - 1);
+		}
 	}
 
 	public String getScoreBox () {

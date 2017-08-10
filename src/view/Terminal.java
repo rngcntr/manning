@@ -91,7 +91,10 @@ public class Terminal {
 		}
 
 		Drive observedD = game.getDrive(observedDrive);
-		int playCount = observedD.getPlayCount();
+		int playCount = 0;
+		if (observedD != null) {
+			playCount = observedD.getPlayCount();
+		}
 		if (playCount > 0) {
 			observedPlay %= playCount;
 			observedPlay += playCount;
