@@ -4,7 +4,7 @@
 
 *manning* is a text based live ticker for NFL games. All live data is collected from NFL's official site where it is publicly available in JSON format. Sources are
 
-* www.nfl.com/liveupdate/scorestrip/ss.json (for week overview)
+* www.nfl.com/liveupdate/scores/scores.json (for week overview)
 * www.nfl.com/liveupdate/game-center/<ID>/<ID>_gtd.json (for single games where <ID> matches the JSON attribute "eid" found at the link above)
 
 ### System requirements ###
@@ -31,6 +31,9 @@ In order to start the overview, all you need to do is run ```java -jar manning.j
 
 The more complex perspective is designed for following single games. Therefore, start manning by running ```java -jar manning.jar <TEAM>``` where <TEAM> stands for the two or three letter abbreviation of the team you're interested in (if you don't know these abbrevations, head over to overview). Here you can use 'a' and 'd' to navigate through the game's drives and 'w' and 's' to navigate through a drive's plays. No matter how far you have scrolled, typing '0' will always bring you back to the latest available play.
 
+This is what it looks like:
+
+![](https://bitbucket.org/rngcntr/manning/downloads/screenshot.png) 
 ### I found errors! ###
 
 This piece of software is by far not error-free. Feel free to report issues and I'll see what I can do ;)
