@@ -2,6 +2,7 @@ package view;
 
 import control.*;
 import model.*;
+import java.io.IOException;
 
 public class Manning implements ManningAUI {
 
@@ -47,6 +48,7 @@ public class Manning implements ManningAUI {
 			mode = OVERVIEW;
 		}
 
+        prepare();
 		manControl.run();
 	}
 
@@ -102,7 +104,14 @@ public class Manning implements ManningAUI {
 		}
 	}
 
+    public void prepare () {
+        System.out.print(Printer.ANSI_SAVE);
+        System.out.print(Printer.ANSI_CLEAR);
+        System.out.print(Printer.ANSI_HOME);
+    }
+
 	public void quit () {
+        System.out.print(Printer.ANSI_RESTORE);
 		System.exit(0);
 	}
 }
