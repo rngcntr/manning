@@ -5,26 +5,22 @@ import org.json.simple.*;
 
 public class GameList {
 
-	private long week = 0;
 	private ArrayList<Game> games;
 
 	public GameList () {
 		this.games = new ArrayList<Game>();
 	}
 
-	public static GameList fromJSON (JSONObject jsonObject) {
+	public static GameList fromJSON (JSONObject games) {
 		GameList output = new GameList();
 
 		try {
-			long week = (long) jsonObject.get("w");
-			output.week = week;
-
-			JSONArray games = (JSONArray) jsonObject.get("gms");
-			Iterator iterator = games.iterator();
+			Iterator iterator = games.keySet().iterator();
 
 			while (iterator.hasNext()) {
-				JSONObject nextGameJSON = (JSONObject) iterator.next();
-				Game nextGame = Game.fromJSON(nextGameJSON);
+                String nextGameID = (String) iterator.next();
+				JSONObject nextGameJSON = (JSONObject) games.get(nextGameID);
+				Game nextGame = Game.fromJSON(Long.parseLong(nextGameID), nextGameJSON);
 				output.games.add(nextGame);
 			}
 		} catch (NullPointerException npex) {
@@ -49,7 +45,7 @@ public class GameList {
 		StringBuilder output = new StringBuilder();
 
 		output.append("╔═══════════════════════════════════════════════════╗\n");
-		output.append(String.format("║                    NFL Week %2d                    ║\n", week));
+		output.append("║                 NFL Current Games                 ║\n");
 		output.append("╚═══════════════════════════════════════════════════╝\n");
 
 		Iterator<Game> iterator = games.iterator();
