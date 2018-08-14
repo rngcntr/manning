@@ -4,7 +4,7 @@
 
 *manning* is a text based live ticker for NFL games. All live data is collected from NFL's official site where it is publicly available in JSON format. Sources are
 
-* www.nfl.com/liveupdate/scorestrip/ss.json (for week overview)
+* www.nfl.com/liveupdate/scores/scores.json (for week overview)
 * www.nfl.com/liveupdate/game-center/<ID>/<ID>_gtd.json (for single games where <ID> matches the JSON attribute "eid" found at the link above)
 
 ### System requirements ###
