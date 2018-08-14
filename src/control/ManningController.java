@@ -20,7 +20,7 @@ public class ManningController {
 	public void run () {
 		while (true) {
 			if (observedID == -1L) {
-				String url = "http://www.nfl.com/liveupdate/scorestrip/ss.json";
+				String url = "http://www.nfl.com/liveupdate/scores/scores.json";
 				String json = netControl.get(url);
 				GameList newGameList = GameList.fromJSON(netControl.parse(json));
 				if (newGameList != null) {
@@ -57,7 +57,7 @@ public class ManningController {
 		taui.showLoadingMessage();
 
 		while (gameList == null) {
-			String json = netControl.get("http://www.nfl.com/liveupdate/scorestrip/ss.json");
+			String json = netControl.get("http://www.nfl.com/liveupdate/scores/scores.json");
 			gameList = GameList.fromJSON(netControl.parse(json));
 		}
 		

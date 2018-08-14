@@ -13,22 +13,22 @@ public class Game {
 	private long id = 0L;
 	private String state = "";
 
-	private String lastAction = "";
+	private boolean redzone;
 
-	public static Game fromJSON (JSONObject jsonObject) {
+	public static Game fromJSON (long id, JSONObject jsonObject) {
 		Game output = new Game();
 
 		try {
-			output.id = (long) jsonObject.get("eid");
-			output.state = (String) jsonObject.get("q");
+			output.id = id;
+			output.state = (String) jsonObject.get("qtr");
 
-			output.homeScore = (long) jsonObject.get("hs");
-			output.guestScore = (long) jsonObject.get("vs");
+            output.homeScore = (long) ((JSONObject) ((JSONObject) jsonObject.get("home")).get("score")).get("T");
+            output.guestScore = (long) ((JSONObject) ((JSONObject) jsonObject.get("away")).get("score")).get("T");
 
-			output.homeShort = (String) jsonObject.get("h");
-			output.guestShort = (String) jsonObject.get("v");
+			output.homeShort = (String) ((JSONObject) jsonObject.get("home")).get("abbr");
+			output.guestShort = (String) ((JSONObject) jsonObject.get("away")).get("abbr");
 			
-			output.lastAction = (String) jsonObject.get("ga");
+			output.redzone = (boolean) jsonObject.get("redzone");
 	        //  "gsis": 56933,
 	        //  "rz": -1,
 		} catch (NullPointerException npex) {
@@ -91,8 +91,8 @@ public class Game {
 	private String generateModifiers () {
 		StringBuilder modifiers = new StringBuilder();
 
-		if (!lastAction.equals("") && !lastAction.equals("INT")) {
-			modifiers.append(Printer.ANSI_GREEN_BOLD);
+		if (redzone) {
+			modifiers.append(Printer.ANSI_RED_BOLD);
 		} else if (isRunning()) {
 			modifiers.append(Printer.ANSI_WHITE_BOLD);
 		}
