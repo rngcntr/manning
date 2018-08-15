@@ -63,7 +63,9 @@ public class Play {
 	public String getField (String home, String guest) {
 		StringBuilder upperSideline = new StringBuilder();
 		StringBuilder lowerSideline = new StringBuilder();
-		if (team.equals(guest)) {
+		if (team.equals("") || (note != null && (note.equals("XP") || note.equals("FG") || note.equals("PUNT") || note.equals("KICKOFF")))) {
+            yards = 0;
+		} else if (team.equals(guest)) {
 			upperSideline.append(Printer.generateSpace(13 + yardLineToInt(driveStart, home, guest) + yards));
 			lowerSideline.append(Printer.generateSpace(13 + yardLineToInt(driveStart, home, guest) + yards));
 		} else {

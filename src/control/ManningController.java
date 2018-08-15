@@ -29,6 +29,8 @@ public class ManningController {
 					maui.update();
 				}
 			} else {
+                // remove this v
+                currentID = 2018081152L;
 				String url = "http://www.nfl.com/liveupdate/game-center/" + currentID + "/" + currentID + "_gtd.json";
 				String json = netControl.get(url);
 				if (json == null) {
