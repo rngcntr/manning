@@ -148,19 +148,38 @@ public class Game {
             guestShortString = Printer.decorate(guestShortString, Printer.ANSI_WHITE_BOLD, generateModifiers());
         }
 
+        String stateString = "";
+        switch (state) {
+            case "1":
+            case "2":
+            case "3":
+            case "4":
+            case "5":
+                stateString = String.format(String.format(" %s&%-2d  %6s  %5s \n", Printer.numberAsString(down), togo, yardline, clock));
+                break;
+            case "Pre":
+                stateString = "    NOT YET STARTED    ";
+                break;
+            case "Final":
+                stateString = "         FINAL         ";
+                break;
+            default:
+                stateString = "     UNKNOWN STATE     ";
+        }
+
 		if(isRunning()) {
 			scoreBox.append("╔═════╤═══════════╤═════╗\n");
 			scoreBox.append(String.format("║ %3s │ %s @ %s │ %-3s ║\n",
 				guestScoreString, guestShortString, homeShortString, homeScoreString));
 			scoreBox.append(String.format("╟─────┴─%s───%s─┴─────╢\n", makeTimeoutsString(homeTimeouts),makeTimeoutsString(guestTimeouts)));
-            scoreBox.append(String.format("║ %s&%-2d  %6s  %5s ║\n", Printer.numberAsString(down), togo, yardline, clock));
+            scoreBox.append(String.format("║%s║", stateString));
 			scoreBox.append("╚═══════════════════════╝\n");
 		} else {
 			scoreBox.append("┌─────┬───────────┬─────┐\n");
 			scoreBox.append(String.format("│ %3s │ %s @ %s │ %-3s │\n",
 				guestScoreString, guestShortString, homeShortString, homeScoreString));
 			scoreBox.append("├─────┴───────────┴─────┤\n");
-            scoreBox.append("│                       │\n");
+            scoreBox.append(String.format("│%s│\n", stateString));
 			scoreBox.append("└───────────────────────┘\n");
 		}
 
