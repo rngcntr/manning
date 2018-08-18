@@ -22,7 +22,7 @@ public class Game {
     private String posTeam = "";
 
 	private long id = 0L;
-	private String state = "Pre";
+	private String state = "Pregame";
 
 	private boolean redzone = false;
 
@@ -140,12 +140,12 @@ public class Game {
 
         String homeShortString = String.format("%-3s", homeShort);
         if (homeShort.equals(posTeam)) {
-            homeShortString = Printer.decorate(homeShortString, Printer.ANSI_WHITE_BOLD, generateModifiers());
+            homeShortString = Printer.decorate(homeShortString, Printer.ANSI_WHITE_BOLD, String.format("%s%s", Printer.ANSI_RESET, generateModifiers()));
         }
 
         String guestShortString = String.format("%3s", guestShort);
         if (guestShort.equals(posTeam)) {
-            guestShortString = Printer.decorate(guestShortString, Printer.ANSI_WHITE_BOLD, generateModifiers());
+            guestShortString = Printer.decorate(guestShortString, Printer.ANSI_WHITE_BOLD, String.format("%s%s", Printer.ANSI_RESET, generateModifiers()));
         }
 
         String stateString = "";
@@ -157,7 +157,7 @@ public class Game {
             case "5":
                 stateString = String.format(String.format(" %s&%-2d  %6s  %5s \n", Printer.numberAsString(down), togo, yardline, clock));
                 break;
-            case "Pre":
+            case "Pregame":
                 stateString = "    NOT YET STARTED    ";
                 break;
             case "Final":
