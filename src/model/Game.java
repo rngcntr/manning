@@ -140,12 +140,12 @@ public class Game {
 
         String homeShortString = String.format("%-3s", homeShort);
         if (homeShort.equals(posTeam)) {
-            homeShortString = Printer.decorate(homeShortString, Printer.ANSI_WHITE_BOLD, generateModifiers());
+            homeShortString = Printer.decorate(homeShortString, Printer.ANSI_WHITE_BOLD, Printer.ANSI_RESET + generateModifiers());
         }
 
         String guestShortString = String.format("%3s", guestShort);
         if (guestShort.equals(posTeam)) {
-            guestShortString = Printer.decorate(guestShortString, Printer.ANSI_WHITE_BOLD, generateModifiers());
+            guestShortString = Printer.decorate(guestShortString, Printer.ANSI_WHITE_BOLD, Printer.ANSI_RESET + generateModifiers());
         }
 
         String stateString = "";
