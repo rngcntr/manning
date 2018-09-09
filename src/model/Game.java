@@ -163,6 +163,9 @@ public class Game {
             case "Halftime":
                 stateString = "       HALFTIME        ";
                 break;
+            case "Suspended":
+                stateString = "       SUSPENDED       ";
+                break;
             case "Final":
                 stateString = "         FINAL         ";
                 break;
