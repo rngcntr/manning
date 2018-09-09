@@ -160,6 +160,9 @@ public class Game {
             case "Pre":
                 stateString = "    NOT YET STARTED    ";
                 break;
+            case "Halftime":
+                stateString = "       HALFTIME        ";
+                break;
             case "Final":
                 stateString = "         FINAL         ";
                 break;
