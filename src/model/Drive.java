@@ -68,15 +68,16 @@ public class Drive {
 		}
 
 		StringBuilder output = new StringBuilder();
-		String left = String.format("[%3s] %3s: %2d plays, %3d yards ",
-				Printer.numberAsString(quarter), team, numPlays, yards);
+		String left = String.format("[%3s] %3s: %2d/%2d plays, %3d yards ",
+				Printer.numberAsString(quarter), team, numPlays - observedPlay, numPlays, yards);
+        String right = String.format("[%s]", result);
 		
-		int space = width - left.length() - result.length();
+		int space = width - left.length() - right.length();
 		if (space < 0) {
 			return "";
 		}
 
-		String header = String.format("%s%s%s", left, Printer.generateSpace(space), result);
+		String header = String.format("%s%s%s", left, Printer.generateSpace(space), right);
 		StringBuilder content = new StringBuilder();
 		
 		Play nextPlay = plays.get(plays.size() - observedPlay - 1);
