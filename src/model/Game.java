@@ -158,6 +158,7 @@ public class Game {
                 stateString = String.format(String.format(" %s&%-2d  %6s  %5s ", Printer.numberAsString(down), togo, yardline, clock));
                 break;
             case "Pre":
+            case "Pregame":
                 stateString = "    NOT YET STARTED    ";
                 break;
             case "Halftime":
