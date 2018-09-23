@@ -169,6 +169,9 @@ public class Game {
             case "Final":
                 stateString = "         FINAL         ";
                 break;
+            case "final overtime":
+                stateString = "       FINAL [OT]      ";
+                break;
             default:
                 stateString = "     UNKNOWN STATE     ";
         }
