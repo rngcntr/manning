@@ -81,14 +81,19 @@ public class Game {
             }
 
             Object yardlineObject = jsonObject.get("yl");
+            Object noteObject = jsonObject.get("note");
             if (yardlineObject != null) {
                 output.yardline = (String) yardlineObject;
+                if (noteObject != null) {
+                    output.yardline = (String) noteObject;
+                }
             }
 
             Object clockObject = jsonObject.get("clock");
             if (clockObject != null) {
                 output.clock = (String) clockObject;
             }
+			
 			
             Object redzoneObject = jsonObject.get("redzone");
 			output.redzone = redzoneObject != null && (boolean) jsonObject.get("redzone");
@@ -155,7 +160,7 @@ public class Game {
             case "3":
             case "4":
             case "5":
-                stateString = String.format(String.format(" %s&%-2d  %6s  %5s ", Printer.numberAsString(down), togo, yardline, clock));
+                stateString = String.format(String.format(" %s&%-2d %s %5s ", Printer.numberAsString(down), togo, Printer.center(yardline, 8), clock));
                 break;
             case "Pre":
             case "Pregame":

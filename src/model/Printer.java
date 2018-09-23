@@ -146,6 +146,16 @@ public class Printer {
 		return output.toString();
 	}
 
+    public static String center (String content, int width) {
+        if (content.length() < width) {
+            int leftSpaceWidth = (width - content.length()) / 2;
+            int rightSpaceWidth = width - content.length() - leftSpaceWidth;
+            return String.format("%s%s%s", generateSpace(leftSpaceWidth), content, generateSpace(rightSpaceWidth));
+        } else {
+            return content.substring(0, width);
+        }
+    }
+
 	public static String numberAsString (long number) {
 		int intNum = Math.toIntExact(number);
 		switch (intNum) {
