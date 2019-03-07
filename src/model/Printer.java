@@ -35,6 +35,11 @@ public class Printer {
     public static final String ANSI_BACK_CYAN = "\u001B[46m";
     public static final String ANSI_BACK_WHITE = "\u001B[47m";
 
+    public static final String ANSI_SAVE = "\u001B[?47h";
+    public static final String ANSI_RESTORE = "\u001B[?47l";
+    public static final String ANSI_CLEAR = "\u001B[2J";
+    public static final String ANSI_HOME = "\u001B[H";
+
     public static String getCurrentTimeStamp() {
         SimpleDateFormat sdfDate = new SimpleDateFormat("HH:mm:ss");
         Date now = new Date();
