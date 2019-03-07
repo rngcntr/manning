@@ -84,38 +84,38 @@ public class Team {
             output.append(used.toString());
         }
 
-		return output.toString();
-	}
+        return output.toString();
+    }
 
-	public long getScore () {
-		return totalScore;
-	}
+    public long getScore () {
+        return totalScore;
+    }
 
-	public long getQuarter1 () {
-		return q1Score;
-	}
+    public long getQuarter1 () {
+        return q1Score;
+    }
 
-	public long getQuarter2 () {
-		return q2Score;
-	}
+    public long getQuarter2 () {
+        return q2Score;
+    }
 
-	public long getQuarter3 () {
-		return q3Score;
-	}
+    public long getQuarter3 () {
+        return q3Score;
+    }
 
-	public long getQuarter4 () {
-		return q4Score;
-	}
+    public long getQuarter4 () {
+        return q4Score;
+    }
 
-	public long getYards () {
-		return yards;
-	}
+    public long getYards () {
+        return yards;
+    }
 
-	public long getPassYards () {
-		return passYards;
-	}
+    public long getPassYards () {
+        return passYards;
+    }
 
-	public long getRushYards () {
-		return rushYards;
-	}
+    public long getRushYards () {
+        return rushYards;
+    }
 }

@@ -84,42 +84,42 @@ public class Drive {
 
         if (current) {
             header = Printer.decorate(header, generateDefaultModifiers());
-		} else {
-			header = Printer.decorate(header, generateUnfocusedModifiers());
-		}
+        } else {
+            header = Printer.decorate(header, generateUnfocusedModifiers());
+        }
 
-		output.append(header);
-		output.append(content.toString());
+        output.append(header);
+        output.append(content.toString());
 
-		return output.toString();
-	}
+        return output.toString();
+    }
 
-	public String getField (int observedPlay, String home, String guest) {
-		Play play = plays.get(plays.size() - observedPlay - 1);
-		return play.getField(home, guest);
-	}
+    public String getField (int observedPlay, String home, String guest) {
+        Play play = plays.get(plays.size() - observedPlay - 1);
+        return play.getField(home, guest);
+    }
 
-	public int getPlayCount () {
-		return plays.size();
-	}
+    public int getPlayCount () {
+        return plays.size();
+    }
 
-	private String generateDefaultModifiers () {
-		StringBuilder modifiers = new StringBuilder();
+    private String generateDefaultModifiers () {
+        StringBuilder modifiers = new StringBuilder();
 
-		modifiers.append(Printer.ANSI_RESET);
-		modifiers.append(Printer.ANSI_BACK_BLACK);
-		modifiers.append(Printer.ANSI_WHITE_BOLD);
+        modifiers.append(Printer.ANSI_RESET);
+        modifiers.append(Printer.ANSI_BACK_BLACK);
+        modifiers.append(Printer.ANSI_WHITE_BOLD);
 
-		return modifiers.toString();
-	}
+        return modifiers.toString();
+    }
 
-	private String generateUnfocusedModifiers () {
-		StringBuilder modifiers = new StringBuilder();
+    private String generateUnfocusedModifiers () {
+        StringBuilder modifiers = new StringBuilder();
 
-		modifiers.append(Printer.ANSI_RESET);
-		modifiers.append(Printer.ANSI_BACK_BLACK);
-		modifiers.append(Printer.ANSI_WHITE);
+        modifiers.append(Printer.ANSI_RESET);
+        modifiers.append(Printer.ANSI_BACK_BLACK);
+        modifiers.append(Printer.ANSI_WHITE);
 
-		return modifiers.toString();
-	}
+        return modifiers.toString();
+    }
 }

@@ -84,129 +84,129 @@ public class Play {
                 "   ║         │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │         ║   \n",
                 "   ║         │    │  ◄1│0   │  ◄2│0   │  ◄3│0   │  ◄4│0   │   5│0   │   4│0►  │   3│0►  │   2│0►  │   1│0►  │    │         ║   \n",
                 "   ║         │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │         ║   \n",
-			"   ║         │ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ│         ║   \n",
-			String.format("   ║   %3s   │ |  │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │  | │   %-3s   ║   \n",
-					guest, home),
-			"   ║         │ˌˌˌˌ┼ˌˌˌˌ┼ˌˌˌˌ┼ˌˌˌˌ┼ˌˌˌˌ┼ˌˌˌˌ┼ˌˌˌˌ┼ˌˌˌˌ┼ˌˌˌˌ┼ˌˌˌˌ┼ˌˌˌˌ┼ˌˌˌˌ┼ˌˌˌˌ┼ˌˌˌˌ┼ˌˌˌˌ┼ˌˌˌˌ┼ˌˌˌˌ┼ˌˌˌˌ┼ˌˌˌˌ┼ˌˌˌˌ│         ║   \n",
-			"   ║         │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │         ║   \n",
-			"   ║         │    │  ◄1│0   │  ◄2│0   │  ◄3│0   │  ◄4│0   │   5│0   │   4│0►  │   3│0►  │   2│0►  │   1│0►  │    │         ║   \n",
-			"   ║         │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │         ║   \n",
-			"   ║         │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │         ║   \n",
-			"   ║         │ˌˌˌˌ│ˌˌˌˌ│ˌˌˌˌ│ˌˌˌˌ│ˌˌˌˌ│ˌˌˌˌ│ˌˌˌˌ│ˌˌˌˌ│ˌˌˌˌ│ˌˌˌˌ│ˌˌˌˌ│ˌˌˌˌ│ˌˌˌˌ│ˌˌˌˌ│ˌˌˌˌ│ˌˌˌˌ│ˌˌˌˌ│ˌˌˌˌ│ˌˌˌˌ│ˌˌˌˌ│         ║   \n",
-			"   ╚═════════╧═══════════════════════════════════════════════════════════════════════════════════════════════════╧═════════╝   \n"};
+                "   ║         │ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ│         ║   \n",
+                String.format("   ║   %3s   │ |  │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │  | │   %-3s   ║   \n",
+                        guest, home),
+                "   ║         │ˌˌˌˌ┼ˌˌˌˌ┼ˌˌˌˌ┼ˌˌˌˌ┼ˌˌˌˌ┼ˌˌˌˌ┼ˌˌˌˌ┼ˌˌˌˌ┼ˌˌˌˌ┼ˌˌˌˌ┼ˌˌˌˌ┼ˌˌˌˌ┼ˌˌˌˌ┼ˌˌˌˌ┼ˌˌˌˌ┼ˌˌˌˌ┼ˌˌˌˌ┼ˌˌˌˌ┼ˌˌˌˌ┼ˌˌˌˌ│         ║   \n",
+                "   ║         │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │         ║   \n",
+                "   ║         │    │  ◄1│0   │  ◄2│0   │  ◄3│0   │  ◄4│0   │   5│0   │   4│0►  │   3│0►  │   2│0►  │   1│0►  │    │         ║   \n",
+                "   ║         │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │         ║   \n",
+                "   ║         │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │         ║   \n",
+                "   ║         │ˌˌˌˌ│ˌˌˌˌ│ˌˌˌˌ│ˌˌˌˌ│ˌˌˌˌ│ˌˌˌˌ│ˌˌˌˌ│ˌˌˌˌ│ˌˌˌˌ│ˌˌˌˌ│ˌˌˌˌ│ˌˌˌˌ│ˌˌˌˌ│ˌˌˌˌ│ˌˌˌˌ│ˌˌˌˌ│ˌˌˌˌ│ˌˌˌˌ│ˌˌˌˌ│ˌˌˌˌ│         ║   \n",
+                "   ╚═════════╧═══════════════════════════════════════════════════════════════════════════════════════════════════╧═════════╝   \n"};
 
-		StringBuilder output = new StringBuilder();
+        StringBuilder output = new StringBuilder();
 
-		output.append(String.format("%-127s\n", upperSideline.toString()));
-		for (String line : field) {
-			if (team.equals("")) {
-				output.append(line);
-				continue;
-			}
+        output.append(String.format("%-127s\n", upperSideline.toString()));
+        for (String line : field) {
+            if (team.equals("")) {
+                output.append(line);
+                continue;
+            }
 
-			String leftPart;
-			String middlePart;
-			String rightPart;
-			int scrimmage = 13 + yardLineToInt(yardLine, home, guest);
-			int firstDown = 13 + yardLineToInt(yardLine, home, guest);
-			if (team.equals(guest)) {
-				if (down != 0) {
-					firstDown += toGo;
-					leftPart = line.substring(0, firstDown);
-					middlePart = String.valueOf(line.charAt(firstDown));
-					middlePart = Printer.decorate(middlePart, generateFirstDownModifiers(), generateFieldModifiers());
-					rightPart = line.substring(firstDown + 1);
-					line = String.format("%s%s%s", leftPart, middlePart, rightPart);
-				}
+            String leftPart;
+            String middlePart;
+            String rightPart;
+            int scrimmage = 13 + yardLineToInt(yardLine, home, guest);
+            int firstDown = 13 + yardLineToInt(yardLine, home, guest);
+            if (team.equals(guest)) {
+                if (down != 0) {
+                    firstDown += toGo;
+                    leftPart = line.substring(0, firstDown);
+                    middlePart = String.valueOf(line.charAt(firstDown));
+                    middlePart = Printer.decorate(middlePart, generateFirstDownModifiers(), generateFieldModifiers());
+                    rightPart = line.substring(firstDown + 1);
+                    line = String.format("%s%s%s", leftPart, middlePart, rightPart);
+                }
 
-				leftPart = line.substring(0, scrimmage);
-				middlePart = String.valueOf(line.charAt(scrimmage));
-				middlePart = Printer.decorate(middlePart, generateScrimmageModifiers(), generateFieldModifiers());
-				rightPart = line.substring(scrimmage + 1);
-				line = String.format("%s%s%s", leftPart, middlePart, rightPart);
-			} else {
-				leftPart = line.substring(0, scrimmage);
-				middlePart = String.valueOf(line.charAt(scrimmage));
-				middlePart = Printer.decorate(middlePart, generateScrimmageModifiers(), generateFieldModifiers());
-				rightPart = line.substring(scrimmage + 1);
-				line = String.format("%s%s%s", leftPart, middlePart, rightPart);
+                leftPart = line.substring(0, scrimmage);
+                middlePart = String.valueOf(line.charAt(scrimmage));
+                middlePart = Printer.decorate(middlePart, generateScrimmageModifiers(), generateFieldModifiers());
+                rightPart = line.substring(scrimmage + 1);
+                line = String.format("%s%s%s", leftPart, middlePart, rightPart);
+            } else {
+                leftPart = line.substring(0, scrimmage);
+                middlePart = String.valueOf(line.charAt(scrimmage));
+                middlePart = Printer.decorate(middlePart, generateScrimmageModifiers(), generateFieldModifiers());
+                rightPart = line.substring(scrimmage + 1);
+                line = String.format("%s%s%s", leftPart, middlePart, rightPart);
 
-				if (down != 0) {
-					firstDown -= toGo;
-					leftPart = line.substring(0, firstDown);
-					middlePart = String.valueOf(line.charAt(firstDown));
-					middlePart = Printer.decorate(middlePart, generateFirstDownModifiers(), generateFieldModifiers());
-					rightPart = line.substring(firstDown + 1);
-					line = String.format("%s%s%s", leftPart, middlePart, rightPart);
-				}
-			}
-			output.append(line);
-		}
-		output.append(String.format("%-127s", lowerSideline.toString()));
+                if (down != 0) {
+                    firstDown -= toGo;
+                    leftPart = line.substring(0, firstDown);
+                    middlePart = String.valueOf(line.charAt(firstDown));
+                    middlePart = Printer.decorate(middlePart, generateFirstDownModifiers(), generateFieldModifiers());
+                    rightPart = line.substring(firstDown + 1);
+                    line = String.format("%s%s%s", leftPart, middlePart, rightPart);
+                }
+            }
+            output.append(line);
+        }
+        output.append(String.format("%-127s", lowerSideline.toString()));
 
-		return Printer.decorate(output.toString(), generateFieldModifiers());
-	}
-	
-	private String generateModifiers (boolean current) {
-		StringBuilder modifiers = new StringBuilder();
+        return Printer.decorate(output.toString(), generateFieldModifiers());
+    }
 
-		modifiers.append(Printer.ANSI_RESET);
+    private String generateModifiers (boolean current) {
+        StringBuilder modifiers = new StringBuilder();
 
-		if (current) {
-			modifiers.append(Printer.ANSI_WHITE_BOLD);
-		}
+        modifiers.append(Printer.ANSI_RESET);
 
-		return modifiers.toString();
-	}
+        if (current) {
+            modifiers.append(Printer.ANSI_WHITE_BOLD);
+        }
 
-	private String generateFirstDownModifiers () {
-		StringBuilder modifiers = new StringBuilder();
+        return modifiers.toString();
+    }
 
-		modifiers.append(Printer.ANSI_RESET);
-		if (down == 4) {
-			modifiers.append(Printer.ANSI_BACK_RED);
-		} else {
-			modifiers.append(Printer.ANSI_BACK_YELLOW);
-		}
-		modifiers.append(Printer.ANSI_WHITE_BOLD);
+    private String generateFirstDownModifiers () {
+        StringBuilder modifiers = new StringBuilder();
 
-		return modifiers.toString();
-	}
+        modifiers.append(Printer.ANSI_RESET);
+        if (down == 4) {
+            modifiers.append(Printer.ANSI_BACK_RED);
+        } else {
+            modifiers.append(Printer.ANSI_BACK_YELLOW);
+        }
+        modifiers.append(Printer.ANSI_WHITE_BOLD);
 
-	private String generateScrimmageModifiers () {
-		StringBuilder modifiers = new StringBuilder();
+        return modifiers.toString();
+    }
 
-		modifiers.append(Printer.ANSI_RESET);
-		modifiers.append(Printer.ANSI_BACK_BLUE);
-		modifiers.append(Printer.ANSI_WHITE_BOLD);
+    private String generateScrimmageModifiers () {
+        StringBuilder modifiers = new StringBuilder();
 
-		return modifiers.toString();
-	}
+        modifiers.append(Printer.ANSI_RESET);
+        modifiers.append(Printer.ANSI_BACK_BLUE);
+        modifiers.append(Printer.ANSI_WHITE_BOLD);
 
-	private String generateFieldModifiers () {
-		StringBuilder modifiers = new StringBuilder();
+        return modifiers.toString();
+    }
 
-		modifiers.append(Printer.ANSI_RESET);
-		modifiers.append(Printer.ANSI_BACK_GREEN);
-		modifiers.append(Printer.ANSI_WHITE_BOLD);
+    private String generateFieldModifiers () {
+        StringBuilder modifiers = new StringBuilder();
 
-		return modifiers.toString();
-	}
+        modifiers.append(Printer.ANSI_RESET);
+        modifiers.append(Printer.ANSI_BACK_GREEN);
+        modifiers.append(Printer.ANSI_WHITE_BOLD);
 
-	private int yardLineToInt (String yardLine, String home, String guest) {
-		if (yardLine.isEmpty()) {
-			return -1;
-		}
+        return modifiers.toString();
+    }
 
-		String num = yardLine.replaceAll("\\D", "");
-		int asInt = Integer.parseInt(num);
+    private int yardLineToInt (String yardLine, String home, String guest) {
+        if (yardLine.isEmpty()) {
+            return -1;
+        }
 
-		if (yardLine.startsWith(guest)) {
-			return asInt;
-		} else if (yardLine.startsWith(home)) {
-			return 100 - asInt;
-		} else {
-			return 50;
-		}
-	}
+        String num = yardLine.replaceAll("\\D", "");
+        int asInt = Integer.parseInt(num);
+
+        if (yardLine.startsWith(guest)) {
+            return asInt;
+        } else if (yardLine.startsWith(home)) {
+            return 100 - asInt;
+        } else {
+            return 50;
+        }
+    }
 }

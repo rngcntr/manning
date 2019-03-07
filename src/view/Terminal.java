@@ -84,89 +84,89 @@ public class Terminal {
         int driveCount = game.getDriveCount();
         if (driveCount > 0) {
             observedDrive %= driveCount;
-			observedDrive += driveCount;
-			observedDrive %= driveCount;
-		} else {
-			observedDrive = 0;
-		}
+            observedDrive += driveCount;
+            observedDrive %= driveCount;
+        } else {
+            observedDrive = 0;
+        }
 
-		Drive observedD = game.getDrive(observedDrive);
-		int playCount = 0;
-		if (observedD != null) {
-			playCount = observedD.getPlayCount();
-		}
-		if (playCount > 0) {
-			observedPlay %= playCount;
-			observedPlay += playCount;
-			observedPlay %= playCount;
-		} else {
-			observedPlay = 0;
-		}
-	}
+        Drive observedD = game.getDrive(observedDrive);
+        int playCount = 0;
+        if (observedD != null) {
+            playCount = observedD.getPlayCount();
+        }
+        if (playCount > 0) {
+            observedPlay %= playCount;
+            observedPlay += playCount;
+            observedPlay %= playCount;
+        } else {
+            observedPlay = 0;
+        }
+    }
 
-	private void clearScreen () {
-		while (lineCount > 0) {
-			System.out.printf("\033[A");
-			System.out.printf("\033[2K");
-			lineCount--;
-		}
-	}
+    private void clearScreen () {
+        while (lineCount > 0) {
+            System.out.printf("\033[A");
+            System.out.printf("\033[2K");
+            lineCount--;
+        }
+    }
 
-	private void listenForInput () {
-		try {
-			while (true) {
-				char input = (char) console.readCharacter(new char[]{'q', 'w', 'a', 's', 'd', '0', 'c'});
+    private void listenForInput () {
+        try {
+            while (true) {
+                char input = (char) console.readCharacter(new char[]{'q', 'w', 'a', 's', 'd', '0', 'c'});
 
-				switch (input) {
-					case 'q':
-						manning.quit();
-						break;
-					case 's':
-						if (manning.getMode() == Manning.SINGLE) {
-							observedPlay++;
-							manning.update();
-						}
-						break;
-					case 'w':
-						if (manning.getMode() == Manning.SINGLE) {
-							observedPlay--;
-							manning.update();
-						}
-						break;
-					case 'a':
-						if (manning.getMode() == Manning.SINGLE) {
-							observedDrive++;
-							observedPlay = 0;
-							manning.update();
-						}
-						break;
-					case 'd':
-						if (manning.getMode() == Manning.SINGLE) {
-							observedDrive--;
-							observedPlay = 0;
-							manning.update();
-						}
-						break;
-					case '0':
-						if (manning.getMode() == Manning.SINGLE) {
-							observedDrive = 0;
-							observedPlay = 0;
-							manning.update();
-						}
-						break;
-					case 'c':
-						if (manning.getMode() == Manning.SINGLE) {
-							manning.setMode(Manning.OVERVIEW);
-							manning.update();
-						} else if (manning.getMode() == Manning.OVERVIEW) {
-							manning.setMode(Manning.SINGLE);
-							// Do not update, wait for resources to load.
-						}
-						break;
-				}
-			}
-		} catch(IOException ioex) {
-			System.exit(0);
-		}
-	}
+                switch (input) {
+                    case 'q':
+                        manning.quit();
+                        break;
+                    case 's':
+                        if (manning.getMode() == Manning.SINGLE) {
+                            observedPlay++;
+                            manning.update();
+                        }
+                        break;
+                    case 'w':
+                        if (manning.getMode() == Manning.SINGLE) {
+                            observedPlay--;
+                            manning.update();
+                        }
+                        break;
+                    case 'a':
+                        if (manning.getMode() == Manning.SINGLE) {
+                            observedDrive++;
+                            observedPlay = 0;
+                            manning.update();
+                        }
+                        break;
+                    case 'd':
+                        if (manning.getMode() == Manning.SINGLE) {
+                            observedDrive--;
+                            observedPlay = 0;
+                            manning.update();
+                        }
+                        break;
+                    case '0':
+                        if (manning.getMode() == Manning.SINGLE) {
+                            observedDrive = 0;
+                            observedPlay = 0;
+                            manning.update();
+                        }
+                        break;
+                    case 'c':
+                        if (manning.getMode() == Manning.SINGLE) {
+                            manning.setMode(Manning.OVERVIEW);
+                            manning.update();
+                        } else if (manning.getMode() == Manning.OVERVIEW) {
+                            manning.setMode(Manning.SINGLE);
+                            // Do not update, wait for resources to load.
+                        }
+                        break;
+                }
+            }
+        } catch(IOException ioex) {
+            System.exit(0);
+        }
+    }
 }

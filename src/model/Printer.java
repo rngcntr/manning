@@ -84,98 +84,98 @@ public class Printer {
 
         for (int count = 0; count < splitted.length - 1; count++) {
             output.append(String.format("%s%s%s\n", option, splitted[count], ANSI_RESET));
-		}
+        }
 
-		output.append(String.format("%s%s%s", option, splitted[splitted.length-1], ANSI_RESET));
+        output.append(String.format("%s%s%s", option, splitted[splitted.length-1], ANSI_RESET));
 
-		return output.toString();
-	}
+        return output.toString();
+    }
 
-	public static String fit (String input, int width, int height) {
-		StringBuilder output = new StringBuilder();
-		String[] splittedIn = input.split("\n");
-		String[] splittedOut = new String[height];
+    public static String fit (String input, int width, int height) {
+        StringBuilder output = new StringBuilder();
+        String[] splittedIn = input.split("\n");
+        String[] splittedOut = new String[height];
 
-		for (int line = 0; line < height; line++) {
-			if (line < splittedIn.length) {
-				int length = splittedIn[line].length();
-				splittedOut[line] = String.format("%s%s", splittedIn[line], generateSpace(width - length));
-				splittedOut[line] = splittedOut[line].substring(0, width - 1);
-			} else {
-				splittedOut[line] = generateSpace(width);
-			}
-		}
+        for (int line = 0; line < height; line++) {
+            if (line < splittedIn.length) {
+                int length = splittedIn[line].length();
+                splittedOut[line] = String.format("%s%s", splittedIn[line], generateSpace(width - length));
+                splittedOut[line] = splittedOut[line].substring(0, width - 1);
+            } else {
+                splittedOut[line] = generateSpace(width);
+            }
+        }
 
-		for (int line = 0; line < splittedOut.length - 1; line++) {
-			output.append(String.format("%s\n", splittedOut[line]));
-		}
+        for (int line = 0; line < splittedOut.length - 1; line++) {
+            output.append(String.format("%s\n", splittedOut[line]));
+        }
 
-		output.append(splittedOut[splittedOut.length - 1]);
+        output.append(splittedOut[splittedOut.length - 1]);
 
-		return output.toString();
-	}
+        return output.toString();
+    }
 
-	public static String decorate (String input, String option, String closeOption) {
-		StringBuilder output = new StringBuilder();
-		String[] splitted = input.split("\n");
+    public static String decorate (String input, String option, String closeOption) {
+        StringBuilder output = new StringBuilder();
+        String[] splitted = input.split("\n");
 
-		for (int count = 0; count < splitted.length - 1; count++) {
-			output.append(String.format("%s%s%s\n", option, splitted[count], closeOption));
-		}
+        for (int count = 0; count < splitted.length - 1; count++) {
+            output.append(String.format("%s%s%s\n", option, splitted[count], closeOption));
+        }
 
-		output.append(String.format("%s%s%s", option, splitted[splitted.length-1], closeOption));
+        output.append(String.format("%s%s%s", option, splitted[splitted.length-1], closeOption));
 
-		return output.toString();
-	}
+        return output.toString();
+    }
 
-	public static String align (String left, int space, String right) {
-		String[] leftSplitted = left.split("\n");
-		String[] rightSplitted = right.split("\n");
-		StringBuilder output = new StringBuilder();
+    public static String align (String left, int space, String right) {
+        String[] leftSplitted = left.split("\n");
+        String[] rightSplitted = right.split("\n");
+        StringBuilder output = new StringBuilder();
 
-		for (int line = 0; line < leftSplitted.length && line < rightSplitted.length; line++) {
-			output.append(leftSplitted[line]);
-			output.append(generateSpace(space));
-			output.append(rightSplitted[line]);
+        for (int line = 0; line < leftSplitted.length && line < rightSplitted.length; line++) {
+            output.append(leftSplitted[line]);
+            output.append(generateSpace(space));
+            output.append(rightSplitted[line]);
 
-			if (line < leftSplitted.length - 1 && line < rightSplitted.length - 1) {
-				output.append("\n");
-			}
-		}
+            if (line < leftSplitted.length - 1 && line < rightSplitted.length - 1) {
+                output.append("\n");
+            }
+        }
 
-		return output.toString();
-	}
+        return output.toString();
+    }
 
-	public static String numberAsString (long number) {
-		int intNum = Math.toIntExact(number);
-		switch (intNum) {
-			case 1:
-				return "1st";
-			case 2:
-				return "2nd";
-			case 3:
-				return "3rd";
-			case 4:
-				return "4th";
-			case 5:
-				return " OT";
-			default:
-				return "   ";
-		}
-	}
+    public static String numberAsString (long number) {
+        int intNum = Math.toIntExact(number);
+        switch (intNum) {
+            case 1:
+                return "1st";
+            case 2:
+                return "2nd";
+            case 3:
+                return "3rd";
+            case 4:
+                return "4th";
+            case 5:
+                return " OT";
+            default:
+                return "   ";
+        }
+    }
 
-	public static String numberAsString (String number) {
-		try {
-			int intNum = Integer.valueOf(number);
-			return numberAsString(intNum);
-		} catch (NumberFormatException nfex) {
-			return "   ";
-		}
-	}
-	
-	public static String breakLines (String input, int width) {
-		input += "\n"; // Needed to handle last line correctly
-		input = input.replaceAll(String.format("(.{1,%d})\\s+", width), "$1\n");
-		return input;
-	}
+    public static String numberAsString (String number) {
+        try {
+            int intNum = Integer.valueOf(number);
+            return numberAsString(intNum);
+        } catch (NumberFormatException nfex) {
+            return "   ";
+        }
+    }
+
+    public static String breakLines (String input, int width) {
+        input += "\n"; // Needed to handle last line correctly
+        input = input.replaceAll(String.format("(.{1,%d})\\s+", width), "$1\n");
+        return input;
+    }
 }

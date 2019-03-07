@@ -84,25 +84,25 @@ public class Manning implements ManningAUI {
                 GameList gameList = manControl.getGameList();
                 if (gameList != null) {
                     terminal.refreshOverview(gameList);
-				}
-				break;
-			case SINGLE:
-				DetailedGame detailedGame = manControl.getDetailedGame();
-				if (detailedGame != null) {
-					terminal.refreshSingleView(detailedGame);
-				} else {
-					mode = OVERVIEW;
-					manControl.observeGame("");
-				}
-				break;
-			case INPUT:
-				break;
-			case LOADING:
-				break;
-			default:
-				break;
-		}
-	}
+                }
+                break;
+            case SINGLE:
+                DetailedGame detailedGame = manControl.getDetailedGame();
+                if (detailedGame != null) {
+                    terminal.refreshSingleView(detailedGame);
+                } else {
+                    mode = OVERVIEW;
+                    manControl.observeGame("");
+                }
+                break;
+            case INPUT:
+                break;
+            case LOADING:
+                break;
+            default:
+                break;
+        }
+    }
 
     public void prepare () {
         System.out.print(Printer.ANSI_SAVE);
@@ -110,8 +110,8 @@ public class Manning implements ManningAUI {
         System.out.print(Printer.ANSI_HOME);
     }
 
-	public void quit () {
+    public void quit () {
         System.out.print(Printer.ANSI_RESTORE);
-		System.exit(0);
-	}
+        System.exit(0);
+    }
 }

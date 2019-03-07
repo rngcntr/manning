@@ -89,51 +89,51 @@ public class Game {
             if (clockObject != null) {
                 output.clock = (String) clockObject;
             }
-			
+
             Object redzoneObject = jsonObject.get("redzone");
-			output.redzone = redzoneObject != null && (boolean) jsonObject.get("redzone");
-		} catch (NullPointerException npex) {
-			System.err.println("Unable to parse Game from JSON");
-			return null;
-		}
+            output.redzone = redzoneObject != null && (boolean) jsonObject.get("redzone");
+        } catch (NullPointerException npex) {
+            System.err.println("Unable to parse Game from JSON");
+            return null;
+        }
 
-		return output; 
-	}
+        return output; 
+    }
 
-	public long getID () {
-		return id;
-	}
-	
-	public String getHome () {
-		return homeShort;
-	}
+    public long getID () {
+        return id;
+    }
 
-	public String getGuest () {
-		return guestShort;
-	}
+    public String getHome () {
+        return homeShort;
+    }
 
-	public boolean isRunning () {
-		boolean running = false;
+    public String getGuest () {
+        return guestShort;
+    }
 
-		switch (state) {
-			case "1":
-			case "2":
-			case "H":
-			case "3":
-			case "4":
-			case "5":
-				running = true;
-				break;
-			default:
-				running = false;
-				break;
-		}
+    public boolean isRunning () {
+        boolean running = false;
 
-		return running;
-	}
+        switch (state) {
+            case "1":
+            case "2":
+            case "H":
+            case "3":
+            case "4":
+            case "5":
+                running = true;
+                break;
+            default:
+                running = false;
+                break;
+        }
 
-	public String toString () {
-		StringBuilder scoreBox = new StringBuilder();
+        return running;
+    }
+
+    public String toString () {
+        StringBuilder scoreBox = new StringBuilder();
 
         String homeScoreString = homeScore >= 0 ? String.valueOf(homeScore) : "";
         String guestScoreString = guestScore >= 0 ? String.valueOf(guestScore) : "";
@@ -167,24 +167,24 @@ public class Game {
                 stateString = "     UNKNOWN STATE     ";
         }
 
-		if(isRunning()) {
-			scoreBox.append("╔═════╤═══════════╤═════╗\n");
-			scoreBox.append(String.format("║ %3s │ %s @ %s │ %-3s ║\n",
-				guestScoreString, guestShortString, homeShortString, homeScoreString));
-			scoreBox.append(String.format("╟─────┴─%s───%s─┴─────╢\n", makeTimeoutsString(homeTimeouts),makeTimeoutsString(guestTimeouts)));
+        if(isRunning()) {
+            scoreBox.append("╔═════╤═══════════╤═════╗\n");
+            scoreBox.append(String.format("║ %3s │ %s @ %s │ %-3s ║\n",
+                        guestScoreString, guestShortString, homeShortString, homeScoreString));
+            scoreBox.append(String.format("╟─────┴─%s───%s─┴─────╢\n", makeTimeoutsString(homeTimeouts),makeTimeoutsString(guestTimeouts)));
             scoreBox.append(String.format("║%s║", stateString));
-			scoreBox.append("╚═══════════════════════╝\n");
-		} else {
-			scoreBox.append("┌─────┬───────────┬─────┐\n");
-			scoreBox.append(String.format("│ %3s │ %s @ %s │ %-3s │\n",
-				guestScoreString, guestShortString, homeShortString, homeScoreString));
-			scoreBox.append("├─────┴───────────┴─────┤\n");
+            scoreBox.append("╚═══════════════════════╝\n");
+        } else {
+            scoreBox.append("┌─────┬───────────┬─────┐\n");
+            scoreBox.append(String.format("│ %3s │ %s @ %s │ %-3s │\n",
+                        guestScoreString, guestShortString, homeShortString, homeScoreString));
+            scoreBox.append("├─────┴───────────┴─────┤\n");
             scoreBox.append(String.format("│%s│\n", stateString));
-			scoreBox.append("└───────────────────────┘\n");
-		}
+            scoreBox.append("└───────────────────────┘\n");
+        }
 
-		return Printer.decorate(scoreBox.toString(), generateModifiers());
-	}
+        return Printer.decorate(scoreBox.toString(), generateModifiers());
+    }
 
     private String makeTimeoutsString (long timeouts) {
         StringBuilder output = new StringBuilder();
@@ -199,16 +199,16 @@ public class Game {
         return output.toString();
     }
 
-	private String generateModifiers () {
-		StringBuilder modifiers = new StringBuilder();
+    private String generateModifiers () {
+        StringBuilder modifiers = new StringBuilder();
 
-		if (redzone) {
-			modifiers.append(Printer.ANSI_RED_BOLD);
-		} else if (isRunning()) {
-			modifiers.append(Printer.ANSI_WHITE);
-		}
+        if (redzone) {
+            modifiers.append(Printer.ANSI_RED_BOLD);
+        } else if (isRunning()) {
+            modifiers.append(Printer.ANSI_WHITE);
+        }
 
-		return modifiers.toString();
-	}
+        return modifiers.toString();
+    }
 
 }
