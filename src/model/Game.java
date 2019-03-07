@@ -4,11 +4,11 @@ import org.json.simple.*;
 
 public class Game {
 
-	private long homeScore = -1L;
-	private long guestScore = -1L;
-	
-	private String homeShort = "";
-	private String guestShort = "";
+    private long homeScore = -1L;
+    private long guestScore = -1L;
+
+    private String homeShort = "";
+    private String guestShort = "";
 
     private long homeTimeouts = 3L;
     private long guestTimeouts = 3L;
@@ -21,16 +21,16 @@ public class Game {
 
     private String posTeam = "";
 
-	private long id = 0L;
-	private String state = "Pre";
+    private long id = 0L;
+    private String state = "Pre";
 
-	private boolean redzone = false;
+    private boolean redzone = false;
 
-	public static Game fromJSON (long id, JSONObject jsonObject) {
-		Game output = new Game();
+    public static Game fromJSON (long id, JSONObject jsonObject) {
+        Game output = new Game();
 
-		try {
-			output.id = id;
+        try {
+            output.id = id;
 
             Object stateObject = jsonObject.get("qtr");
             if (stateObject != null) {
@@ -42,8 +42,8 @@ public class Game {
                 output.posTeam = (String) posTeamObject;
             }
 
-			output.homeShort = (String) ((JSONObject) jsonObject.get("home")).get("abbr");
-			output.guestShort = (String) ((JSONObject) jsonObject.get("away")).get("abbr");
+            output.homeShort = (String) ((JSONObject) jsonObject.get("home")).get("abbr");
+            output.guestShort = (String) ((JSONObject) jsonObject.get("away")).get("abbr");
 
             Object homeScoreObject = ((JSONObject) ((JSONObject) jsonObject.get("home")).get("score")).get("T");
             if (homeScoreObject != null) {

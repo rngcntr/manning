@@ -6,84 +6,84 @@ import java.io.*;
 
 public class Terminal {
 
-	private Manning manning;
+    private Manning manning;
 
-	private int lineCount = 0;
+    private int lineCount = 0;
 
-	private ConsoleReader console;
-	
-	private int observedDrive = 0;
-	private int observedPlay = 0;
+    private ConsoleReader console;
 
-	public Terminal (Manning manning) {
-		this.manning = manning;
+    private int observedDrive = 0;
+    private int observedPlay = 0;
 
-		try {
-			console = new ConsoleReader(System.in, System.out);
-		} catch(IOException ioex) {
-			System.err.println("Unable to open console streams");
-		}
+    public Terminal (Manning manning) {
+        this.manning = manning;
 
-		new Thread (() -> listenForInput()).start();
-	}
+        try {
+            console = new ConsoleReader(System.in, System.out);
+        } catch(IOException ioex) {
+            System.err.println("Unable to open console streams");
+        }
 
-	synchronized String askForTeam () {
-		manning.setMode(Manning.INPUT);
-		clearScreen();
-		try {
-			String team = console.readLine("Select a team > ");
-			lineCount = 1;
-			return team.toUpperCase();
-		} catch (IOException ioex) {
-			return "";
-		}
-	}
+        new Thread (() -> listenForInput()).start();
+    }
 
-	synchronized void showLoadingMessage () {
-		clearScreen();
-		System.out.println(" Loading web resource. Please wait...");
-		lineCount = 1;
-	}
+    synchronized String askForTeam () {
+        manning.setMode(Manning.INPUT);
+        clearScreen();
+        try {
+            String team = console.readLine("Select a team > ");
+            lineCount = 1;
+            return team.toUpperCase();
+        } catch (IOException ioex) {
+            return "";
+        }
+    }
 
-	synchronized void refreshOverview (GameList newGameList) {
-		StringBuilder output = new StringBuilder();
-		
-		output.append(newGameList.toString());
-		String timeStamp = String.format("Last updated: %s", Printer.getCurrentTimeStamp());
-		output.append(String.format("\n Press 'q' to exit%34s ", timeStamp));
+    synchronized void showLoadingMessage () {
+        clearScreen();
+        System.out.println(" Loading web resource. Please wait...");
+        lineCount = 1;
+    }
 
-		clearScreen();
-		System.out.println(output.toString());
-		lineCount = output.toString().split("\n").length;
-	}
+    synchronized void refreshOverview (GameList newGameList) {
+        StringBuilder output = new StringBuilder();
 
-	synchronized void refreshSingleView (DetailedGame newGame) {
-		StringBuilder output = new StringBuilder();
-		
-		String scoreBox = newGame.getScoreBox();
-		String statsBox = newGame.getStatsBox();
-		String quarterBox = newGame.getQuarterBox();
-		synchronizeObservers(newGame);
-		String fieldBox = newGame.getField(observedDrive, observedPlay);
-		String driveBox = newGame.getDriveBox(127, observedDrive, observedPlay);
+        output.append(newGameList.toString());
+        String timeStamp = String.format("Last updated: %s", Printer.getCurrentTimeStamp());
+        output.append(String.format("\n Press 'q' to exit%34s ", timeStamp));
 
-		output.append(Printer.align(Printer.align(scoreBox, 4, statsBox), 4, quarterBox));
-		output.append("\n\n");
-		output.append(fieldBox);
-		output.append("\n\n");
-		output.append(driveBox);
-		String timeStamp = String.format("Last updated: %s", Printer.getCurrentTimeStamp());
-		output.append(String.format("\n\n Press 'q' to exit%108s ", timeStamp));
-		
-		clearScreen();
-		System.out.println(output.toString());
-		lineCount = output.toString().split("\n").length;
-	}
+        clearScreen();
+        System.out.println(output.toString());
+        lineCount = output.toString().split("\n").length;
+    }
 
-	private void synchronizeObservers (DetailedGame game) {
-		int driveCount = game.getDriveCount();
-		if (driveCount > 0) {
-			observedDrive %= driveCount;
+    synchronized void refreshSingleView (DetailedGame newGame) {
+        StringBuilder output = new StringBuilder();
+
+        String scoreBox = newGame.getScoreBox();
+        String statsBox = newGame.getStatsBox();
+        String quarterBox = newGame.getQuarterBox();
+        synchronizeObservers(newGame);
+        String fieldBox = newGame.getField(observedDrive, observedPlay);
+        String driveBox = newGame.getDriveBox(127, observedDrive, observedPlay);
+
+        output.append(Printer.align(Printer.align(scoreBox, 4, statsBox), 4, quarterBox));
+        output.append("\n\n");
+        output.append(fieldBox);
+        output.append("\n\n");
+        output.append(driveBox);
+        String timeStamp = String.format("Last updated: %s", Printer.getCurrentTimeStamp());
+        output.append(String.format("\n\n Press 'q' to exit%108s ", timeStamp));
+
+        clearScreen();
+        System.out.println(output.toString());
+        lineCount = output.toString().split("\n").length;
+    }
+
+    private void synchronizeObservers (DetailedGame game) {
+        int driveCount = game.getDriveCount();
+        if (driveCount > 0) {
+            observedDrive %= driveCount;
 			observedDrive += driveCount;
 			observedDrive %= driveCount;
 		} else {

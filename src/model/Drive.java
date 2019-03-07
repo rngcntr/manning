@@ -5,85 +5,85 @@ import java.util.*;
 
 public class Drive {
 
-	private String team = "";
+    private String team = "";
 
-	private ArrayList<Play> plays;
+    private ArrayList<Play> plays;
 
-	private String result = "";
-	private long yards = 0L;
-	private long numPlays = 0L;
-	private long quarter = 0L;
+    private String result = "";
+    private long yards = 0L;
+    private long numPlays = 0L;
+    private long quarter = 0L;
 
-	public static Drive fromJSON (JSONObject jsonObject) {
-		Drive output = new Drive();
+    public static Drive fromJSON (JSONObject jsonObject) {
+        Drive output = new Drive();
 
-		try {
-			output.team = (String) jsonObject.get("posteam");
-			output.result = (String) jsonObject.get("result");
-			output.yards = (long) jsonObject.get("ydsgained");
-			output.numPlays = (long) jsonObject.get("numplays");
-			output.quarter = (long) jsonObject.get("qtr");
-			
-			JSONObject driveStart = (JSONObject) jsonObject.get("start");
-			String startLine = (String) driveStart.get("yrdln");
+        try {
+            output.team = (String) jsonObject.get("posteam");
+            output.result = (String) jsonObject.get("result");
+            output.yards = (long) jsonObject.get("ydsgained");
+            output.numPlays = (long) jsonObject.get("numplays");
+            output.quarter = (long) jsonObject.get("qtr");
 
-			JSONObject jsonPlays = (JSONObject) jsonObject.get("plays");
-			output.plays = new ArrayList<Play>();
-			ArrayList<String> playKeys = new ArrayList<String>();
-			
-			for (Object o : jsonPlays.keySet()) {
-				playKeys.add((String) o);
-			}
+            JSONObject driveStart = (JSONObject) jsonObject.get("start");
+            String startLine = (String) driveStart.get("yrdln");
 
-			Collections.sort(playKeys, new Comparator<String>() {
-				public int compare(String o1, String o2) {
-					return extractInt(o1) - extractInt(o2);
-				}
+            JSONObject jsonPlays = (JSONObject) jsonObject.get("plays");
+            output.plays = new ArrayList<Play>();
+            ArrayList<String> playKeys = new ArrayList<String>();
 
-				int extractInt(String s) {
-					String num = s.replaceAll("\\D", "");
-					// return 0 if no digits found
-					return num.isEmpty() ? 0 : Integer.parseInt(num);
-				}
-			});
+            for (Object o : jsonPlays.keySet()) {
+                playKeys.add((String) o);
+            }
 
-			for (Object key : playKeys) {
-				JSONObject jsonPlay = (JSONObject) jsonPlays.get((String) key);
-				Play newPlay = Play.fromJSON(jsonPlay);
-				newPlay.setStart(startLine);
-				output.plays.add(newPlay);
-			}
-		} catch (NullPointerException npex) {
-			npex.printStackTrace();
-			System.err.println("Unable to parse Drive from JSON");
-			return null;
-		}
+            Collections.sort(playKeys, new Comparator<String>() {
+                public int compare(String o1, String o2) {
+                    return extractInt(o1) - extractInt(o2);
+                }
 
-		return output; 
-	}
+                int extractInt(String s) {
+                    String num = s.replaceAll("\\D", "");
+                    // return 0 if no digits found
+                    return num.isEmpty() ? 0 : Integer.parseInt(num);
+                }
+            });
 
-	public String toString (int width, boolean current, int observedPlay) {
-		if (plays.isEmpty()) {
-			return "";
-		}
+            for (Object key : playKeys) {
+                JSONObject jsonPlay = (JSONObject) jsonPlays.get((String) key);
+                Play newPlay = Play.fromJSON(jsonPlay);
+                newPlay.setStart(startLine);
+                output.plays.add(newPlay);
+            }
+        } catch (NullPointerException npex) {
+            npex.printStackTrace();
+            System.err.println("Unable to parse Drive from JSON");
+            return null;
+        }
 
-		StringBuilder output = new StringBuilder();
-		String left = String.format("[%3s] %3s: %2d plays, %3d yards ",
-				Printer.numberAsString(quarter), team, numPlays, yards);
-		
-		int space = width - left.length() - result.length();
-		if (space < 0) {
-			return "";
-		}
+        return output; 
+    }
 
-		String header = String.format("%s%s%s", left, Printer.generateSpace(space), result);
-		StringBuilder content = new StringBuilder();
-		
-		Play nextPlay = plays.get(plays.size() - observedPlay - 1);
-		content.append(String.format("\n\n%s", nextPlay.toString(width - 3, current && observedPlay == 0)));
+    public String toString (int width, boolean current, int observedPlay) {
+        if (plays.isEmpty()) {
+            return "";
+        }
 
-		if (current) {
-			header = Printer.decorate(header, generateDefaultModifiers());
+        StringBuilder output = new StringBuilder();
+        String left = String.format("[%3s] %3s: %2d plays, %3d yards ",
+                Printer.numberAsString(quarter), team, numPlays, yards);
+
+        int space = width - left.length() - result.length();
+        if (space < 0) {
+            return "";
+        }
+
+        String header = String.format("%s%s%s", left, Printer.generateSpace(space), result);
+        StringBuilder content = new StringBuilder();
+
+        Play nextPlay = plays.get(plays.size() - observedPlay - 1);
+        content.append(String.format("\n\n%s", nextPlay.toString(width - 3, current && observedPlay == 0)));
+
+        if (current) {
+            header = Printer.decorate(header, generateDefaultModifiers());
 		} else {
 			header = Printer.decorate(header, generateUnfocusedModifiers());
 		}

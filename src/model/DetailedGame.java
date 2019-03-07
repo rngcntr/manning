@@ -6,84 +6,84 @@ import java.lang.Math;
 
 public class DetailedGame {
 
-	private Team home = null;
-	private Team guest = null;
+    private Team home = null;
+    private Team guest = null;
 
-	private String state = "";
+    private String state = "";
 
-	private ArrayList<Drive> drives;
-	private long currentDrive = 0;
+    private ArrayList<Drive> drives;
+    private long currentDrive = 0;
 
-	private String yardLine = "";
-	private long down = 0;
-	private long toGo = 0;
-	private String clock = "";
-	private String posTeam = "";
+    private String yardLine = "";
+    private long down = 0;
+    private long toGo = 0;
+    private String clock = "";
+    private String posTeam = "";
 
-	public static DetailedGame fromJSON (JSONObject jsonObject, long id) {
-		DetailedGame output = new DetailedGame();
+    public static DetailedGame fromJSON (JSONObject jsonObject, long id) {
+        DetailedGame output = new DetailedGame();
 
-		JSONObject game = (JSONObject) jsonObject.get(String.valueOf(id));
+        JSONObject game = (JSONObject) jsonObject.get(String.valueOf(id));
 
-		JSONObject homeTeam = (JSONObject) game.get("home");
-		output.home = Team.fromJSON(homeTeam);
+        JSONObject homeTeam = (JSONObject) game.get("home");
+        output.home = Team.fromJSON(homeTeam);
 
-		JSONObject guestTeam = (JSONObject) game.get("away");
-		output.guest = Team.fromJSON(guestTeam);
+        JSONObject guestTeam = (JSONObject) game.get("away");
+        output.guest = Team.fromJSON(guestTeam);
 
-		output.state = (String) game.get("qtr");
-		output.yardLine = (String) game.get("yl");
+        output.state = (String) game.get("qtr");
+        output.yardLine = (String) game.get("yl");
 
-		try {
-			output.down = (long) game.get("down");
-		} catch (NullPointerException npex) {
-			output.down = 0L;
-		}
+        try {
+            output.down = (long) game.get("down");
+        } catch (NullPointerException npex) {
+            output.down = 0L;
+        }
 
-		output.toGo = (long) game.get("togo");
-		output.clock = (String) game.get("clock");
-		output.posTeam = (String) game.get("posteam");
+        output.toGo = (long) game.get("togo");
+        output.clock = (String) game.get("clock");
+        output.posTeam = (String) game.get("posteam");
 
-		output.drives = new ArrayList<Drive>();
-		JSONObject jsonDrives = (JSONObject) game.get("drives");
-		output.currentDrive = (long) jsonDrives.get("crntdrv");
+        output.drives = new ArrayList<Drive>();
+        JSONObject jsonDrives = (JSONObject) game.get("drives");
+        output.currentDrive = (long) jsonDrives.get("crntdrv");
 
-		for (int driveCount = 1; driveCount <= output.currentDrive; driveCount++) {
-			JSONObject nextDrive = (JSONObject) jsonDrives.get(String.valueOf(driveCount));
-			output.drives.add(Drive.fromJSON(nextDrive));
-		}
+        for (int driveCount = 1; driveCount <= output.currentDrive; driveCount++) {
+            JSONObject nextDrive = (JSONObject) jsonDrives.get(String.valueOf(driveCount));
+            output.drives.add(Drive.fromJSON(nextDrive));
+        }
 
-		return output; 
-	}
+        return output; 
+    }
 
-	public boolean isRunning () {
-		boolean running = false;
+    public boolean isRunning () {
+        boolean running = false;
 
-		switch (state) {
-			case "1":
-			case "2":
-			case "H":
-			case "3":
-			case "4":
-			case "5":
-				running = true;
-				break;
-			default:
-				running = false;
-				break;
-		}
+        switch (state) {
+            case "1":
+            case "2":
+            case "H":
+            case "3":
+            case "4":
+            case "5":
+                running = true;
+                break;
+            default:
+                running = false;
+                break;
+        }
 
-		return running;
-	}
+        return running;
+    }
 
-	public int getDriveCount () {
-		return drives.size();
-	}
+    public int getDriveCount () {
+        return drives.size();
+    }
 
-	public Drive getDrive (int num) {
-		if (drives.size() - num  < 1) {
-			return null;
-		} else {
+    public Drive getDrive (int num) {
+        if (drives.size() - num  < 1) {
+            return null;
+        } else {
 			return drives.get(drives.size() - num - 1);
 		}
 	}

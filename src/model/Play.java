@@ -4,86 +4,86 @@ import org.json.simple.*;
 
 public class Play {
 
-	private long quarter = 0L;
-	private long down = 0L;
-	private String time = "";
-	private String yardLine = "";
-	private long toGo = 0L;
-	private String driveStart = "";
-	private long yards = 0L;
-	private String team = "";
+    private long quarter = 0L;
+    private long down = 0L;
+    private String time = "";
+    private String yardLine = "";
+    private long toGo = 0L;
+    private String driveStart = "";
+    private long yards = 0L;
+    private String team = "";
 
-	private String desc = "";
-	private String note = "";
+    private String desc = "";
+    private String note = "";
 
-	public static Play fromJSON (JSONObject jsonObject) {
-		Play output = new Play();
+    public static Play fromJSON (JSONObject jsonObject) {
+        Play output = new Play();
 
-		try {
-			output.quarter = (long) jsonObject.get("qtr");
-			output.down = (long) jsonObject.get("down");
-			output.time = (String) jsonObject.get("time");
-			output.yardLine = (String) jsonObject.get("yrdln");
-			output.toGo = (long) jsonObject.get("ydstogo");
-			output.yards = (long) jsonObject.get("ydsnet");
-			output.team = (String) jsonObject.get("posteam");
-			
-			output.desc = (String) jsonObject.get("desc");
-			output.note = (String) jsonObject.get("note");
-		} catch (NullPointerException npex) {
-			System.err.println("Unable to parse Play from JSON");
-			return null;
-		}
+        try {
+            output.quarter = (long) jsonObject.get("qtr");
+            output.down = (long) jsonObject.get("down");
+            output.time = (String) jsonObject.get("time");
+            output.yardLine = (String) jsonObject.get("yrdln");
+            output.toGo = (long) jsonObject.get("ydstogo");
+            output.yards = (long) jsonObject.get("ydsnet");
+            output.team = (String) jsonObject.get("posteam");
 
-		return output; 
-	}
+            output.desc = (String) jsonObject.get("desc");
+            output.note = (String) jsonObject.get("note");
+        } catch (NullPointerException npex) {
+            System.err.println("Unable to parse Play from JSON");
+            return null;
+        }
 
-	public void setStart (String startLine) {
-		this.driveStart = startLine;
-	}
+        return output; 
+    }
 
-	public String toString (int width, boolean current) {
-		String right = desc.replaceAll("\\([0-9]*:[0-9]*\\) ", "");
-		right = String.format("%s", right);
-		right = Printer.breakLines(right, width - 12);
-		right = Printer.fit(right, width - 12, 3);
+    public void setStart (String startLine) {
+        this.driveStart = startLine;
+    }
 
-		String left;
-		if (down != 0) {
-			left = String.format("[%5s]\n%s & %d\n%s", time, Printer.numberAsString(down), toGo, yardLine);
-		} else {
-			left = String.format("[%5s]", time);
-		}
+    public String toString (int width, boolean current) {
+        String right = desc.replaceAll("\\([0-9]*:[0-9]*\\) ", "");
+        right = String.format("%s", right);
+        right = Printer.breakLines(right, width - 12);
+        right = Printer.fit(right, width - 12, 3);
 
-		left = Printer.fit(left, 11, 3);
-		String output = Printer.align(left, 1, right);
-		return Printer.decorate(output, generateModifiers(current));
-	}
+        String left;
+        if (down != 0) {
+            left = String.format("[%5s]\n%s & %d\n%s", time, Printer.numberAsString(down), toGo, yardLine);
+        } else {
+            left = String.format("[%5s]", time);
+        }
 
-	public String getField (String home, String guest) {
-		StringBuilder upperSideline = new StringBuilder();
-		StringBuilder lowerSideline = new StringBuilder();
-		if (team.equals(guest)) {
-			upperSideline.append(Printer.generateSpace(13 + yardLineToInt(driveStart, home, guest) + yards));
-			lowerSideline.append(Printer.generateSpace(13 + yardLineToInt(driveStart, home, guest) + yards));
-		} else {
-			upperSideline.append(Printer.generateSpace(13 + yardLineToInt(driveStart, home, guest) - yards));
-			lowerSideline.append(Printer.generateSpace(13 + yardLineToInt(driveStart, home, guest) - yards));
-		}
+        left = Printer.fit(left, 11, 3);
+        String output = Printer.align(left, 1, right);
+        return Printer.decorate(output, generateModifiers(current));
+    }
 
-		if (!team.equals("") && (note == null ||
-				(!note.equals("XP") && !note.equals("FG") && !note.equals("PUNT") && !note.equals("KICKOFF")))) {
-			upperSideline.append("▼");
-			lowerSideline.append("▲");
-		}
+    public String getField (String home, String guest) {
+        StringBuilder upperSideline = new StringBuilder();
+        StringBuilder lowerSideline = new StringBuilder();
+        if (team.equals(guest)) {
+            upperSideline.append(Printer.generateSpace(13 + yardLineToInt(driveStart, home, guest) + yards));
+            lowerSideline.append(Printer.generateSpace(13 + yardLineToInt(driveStart, home, guest) + yards));
+        } else {
+            upperSideline.append(Printer.generateSpace(13 + yardLineToInt(driveStart, home, guest) - yards));
+            lowerSideline.append(Printer.generateSpace(13 + yardLineToInt(driveStart, home, guest) - yards));
+        }
 
-		String[] field = new String[] {
-			"   ╔═════════╤═══════════════════════════════════════════════════════════════════════════════════════════════════╤═════════╗   \n",
-			"   ║         │ˈˈˈˈ│ˈˈˈˈ│ˈˈˈˈ│ˈˈˈˈ│ˈˈˈˈ│ˈˈˈˈ│ˈˈˈˈ│ˈˈˈˈ│ˈˈˈˈ│ˈˈˈˈ│ˈˈˈˈ│ˈˈˈˈ│ˈˈˈˈ│ˈˈˈˈ│ˈˈˈˈ│ˈˈˈˈ│ˈˈˈˈ│ˈˈˈˈ│ˈˈˈˈ│ˈˈˈˈ│         ║   \n",
-			"   ║         │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │         ║   \n",
-			"   ║         │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │         ║   \n",
-			"   ║         │    │  ◄1│0   │  ◄2│0   │  ◄3│0   │  ◄4│0   │   5│0   │   4│0►  │   3│0►  │   2│0►  │   1│0►  │    │         ║   \n",
-			"   ║         │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │         ║   \n",
+        if (!team.equals("") && (note == null ||
+                    (!note.equals("XP") && !note.equals("FG") && !note.equals("PUNT") && !note.equals("KICKOFF")))) {
+            upperSideline.append("▼");
+            lowerSideline.append("▲");
+                    }
+
+        String[] field = new String[] {
+            "   ╔═════════╤═══════════════════════════════════════════════════════════════════════════════════════════════════╤═════════╗   \n",
+                "   ║         │ˈˈˈˈ│ˈˈˈˈ│ˈˈˈˈ│ˈˈˈˈ│ˈˈˈˈ│ˈˈˈˈ│ˈˈˈˈ│ˈˈˈˈ│ˈˈˈˈ│ˈˈˈˈ│ˈˈˈˈ│ˈˈˈˈ│ˈˈˈˈ│ˈˈˈˈ│ˈˈˈˈ│ˈˈˈˈ│ˈˈˈˈ│ˈˈˈˈ│ˈˈˈˈ│ˈˈˈˈ│         ║   \n",
+                "   ║         │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │         ║   \n",
+                "   ║         │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │         ║   \n",
+                "   ║         │    │  ◄1│0   │  ◄2│0   │  ◄3│0   │  ◄4│0   │   5│0   │   4│0►  │   3│0►  │   2│0►  │   1│0►  │    │         ║   \n",
+                "   ║         │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │         ║   \n",
 			"   ║         │ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ┼ˈˈˈˈ│         ║   \n",
 			String.format("   ║   %3s   │ |  │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │    │  | │   %-3s   ║   \n",
 					guest, home),

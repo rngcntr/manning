@@ -2,6 +2,6 @@ package view;
 
 public interface ManningAUI {
 
-	public abstract void update ();
+    public abstract void update ();
 
 }

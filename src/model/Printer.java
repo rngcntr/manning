@@ -6,84 +6,84 @@ import java.lang.Math;
 
 public class Printer {
 
-	public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_RESET = "\u001B[0m";
 
-	public static final String ANSI_BLACK = "\u001B[30m";
-	public static final String ANSI_RED = "\u001B[31m";
-	public static final String ANSI_GREEN = "\u001B[32m";
-	public static final String ANSI_YELLOW = "\u001B[33m";
-	public static final String ANSI_BLUE = "\u001B[34m";
-	public static final String ANSI_PURPLE = "\u001B[35m";
-	public static final String ANSI_CYAN = "\u001B[36m";
-	public static final String ANSI_WHITE = "\u001B[37m";
+    public static final String ANSI_BLACK = "\u001B[30m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_PURPLE = "\u001B[35m";
+    public static final String ANSI_CYAN = "\u001B[36m";
+    public static final String ANSI_WHITE = "\u001B[37m";
 
-	public static final String ANSI_BLACK_BOLD = "\u001B[30;1m";
-	public static final String ANSI_RED_BOLD = "\u001B[31;1m";
-	public static final String ANSI_GREEN_BOLD = "\u001B[32;1m";
-	public static final String ANSI_YELLOW_BOLD = "\u001B[33;1m";
-	public static final String ANSI_BLUE_BOLD = "\u001B[34;1m";
-	public static final String ANSI_PURPLE_BOLD = "\u001B[35;1m";
-	public static final String ANSI_CYAN_BOLD = "\u001B[36;1m";
-	public static final String ANSI_WHITE_BOLD = "\u001B[37;1m";
+    public static final String ANSI_BLACK_BOLD = "\u001B[30;1m";
+    public static final String ANSI_RED_BOLD = "\u001B[31;1m";
+    public static final String ANSI_GREEN_BOLD = "\u001B[32;1m";
+    public static final String ANSI_YELLOW_BOLD = "\u001B[33;1m";
+    public static final String ANSI_BLUE_BOLD = "\u001B[34;1m";
+    public static final String ANSI_PURPLE_BOLD = "\u001B[35;1m";
+    public static final String ANSI_CYAN_BOLD = "\u001B[36;1m";
+    public static final String ANSI_WHITE_BOLD = "\u001B[37;1m";
 
-	public static final String ANSI_BACK_BLACK = "\u001B[40m";
-	public static final String ANSI_BACK_RED = "\u001B[41m";
-	public static final String ANSI_BACK_GREEN = "\u001B[42m";
-	public static final String ANSI_BACK_YELLOW = "\u001B[43m";
-	public static final String ANSI_BACK_BLUE = "\u001B[44m";
-	public static final String ANSI_BACK_PURPLE = "\u001B[45m";
-	public static final String ANSI_BACK_CYAN = "\u001B[46m";
-	public static final String ANSI_BACK_WHITE = "\u001B[47m";
+    public static final String ANSI_BACK_BLACK = "\u001B[40m";
+    public static final String ANSI_BACK_RED = "\u001B[41m";
+    public static final String ANSI_BACK_GREEN = "\u001B[42m";
+    public static final String ANSI_BACK_YELLOW = "\u001B[43m";
+    public static final String ANSI_BACK_BLUE = "\u001B[44m";
+    public static final String ANSI_BACK_PURPLE = "\u001B[45m";
+    public static final String ANSI_BACK_CYAN = "\u001B[46m";
+    public static final String ANSI_BACK_WHITE = "\u001B[47m";
 
-	public static final String ANSI_SAVE = "\u001B[?47h";
-	public static final String ANSI_RESTORE = "\u001B[?47l";
-	public static final String ANSI_CLEAR = "\u001B[2J";
-	public static final String ANSI_HOME = "\u001B[H";
+    public static final String ANSI_SAVE = "\u001B[?47h";
+    public static final String ANSI_RESTORE = "\u001B[?47l";
+    public static final String ANSI_CLEAR = "\u001B[2J";
+    public static final String ANSI_HOME = "\u001B[H";
 
-	public static String getCurrentTimeStamp() {
-		SimpleDateFormat sdfDate = new SimpleDateFormat("HH:mm:ss");
-		Date now = new Date();
-		String strDate = sdfDate.format(now);
-		return strDate;
-	}
+    public static String getCurrentTimeStamp() {
+        SimpleDateFormat sdfDate = new SimpleDateFormat("HH:mm:ss");
+        Date now = new Date();
+        String strDate = sdfDate.format(now);
+        return strDate;
+    }
 
-	public static String generateBar (long length, long totalLength, String option, String closeOption, boolean startsLeft) {
-		
-		StringBuilder output = new StringBuilder();
+    public static String generateBar (long length, long totalLength, String option, String closeOption, boolean startsLeft) {
 
-		if (startsLeft) {
-			output.append(option);
-			output.append(generateSpace(length));
-			output.append(closeOption);
-			output.append(generateSpace(totalLength - length));
-		} else {
-			output.append(generateSpace(totalLength - length));
-			output.append(option);
-			output.append(generateSpace(length));
-			output.append(closeOption);
-		}
+        StringBuilder output = new StringBuilder();
 
-		return output.toString();
-	}
+        if (startsLeft) {
+            output.append(option);
+            output.append(generateSpace(length));
+            output.append(closeOption);
+            output.append(generateSpace(totalLength - length));
+        } else {
+            output.append(generateSpace(totalLength - length));
+            output.append(option);
+            output.append(generateSpace(length));
+            output.append(closeOption);
+        }
 
-	public static String generateSpace (long length) {
-		StringBuilder output = new StringBuilder();
+        return output.toString();
+    }
 
-		if (length > 0) {
-			for (long count = 0; count < length; count++) {
-				output.append(" ");
-			}
-		}
+    public static String generateSpace (long length) {
+        StringBuilder output = new StringBuilder();
 
-		return output.toString();
-	}
+        if (length > 0) {
+            for (long count = 0; count < length; count++) {
+                output.append(" ");
+            }
+        }
 
-	public static String decorate (String input, String option) {
-		StringBuilder output = new StringBuilder();
-		String[] splitted = input.split("\n");
+        return output.toString();
+    }
 
-		for (int count = 0; count < splitted.length - 1; count++) {
-			output.append(String.format("%s%s%s\n", option, splitted[count], ANSI_RESET));
+    public static String decorate (String input, String option) {
+        StringBuilder output = new StringBuilder();
+        String[] splitted = input.split("\n");
+
+        for (int count = 0; count < splitted.length - 1; count++) {
+            output.append(String.format("%s%s%s\n", option, splitted[count], ANSI_RESET));
 		}
 
 		output.append(String.format("%s%s%s", option, splitted[splitted.length-1], ANSI_RESET));

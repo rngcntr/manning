@@ -6,84 +6,84 @@ import java.io.IOException;
 
 public class Manning implements ManningAUI {
 
-	private static final boolean DEBUG = true;
+    private static final boolean DEBUG = true;
 
-	private ManningController manControl;
+    private ManningController manControl;
 
-	private Terminal terminal;
-	private String observedTeam = "";
+    private Terminal terminal;
+    private String observedTeam = "";
 
-	public static final int LOADING = 0;
-	public static final int OVERVIEW = 1;
-	public static final int SINGLE = 2;
-	public static final int INPUT = 3;
+    public static final int LOADING = 0;
+    public static final int OVERVIEW = 1;
+    public static final int SINGLE = 2;
+    public static final int INPUT = 3;
 
-	private int mode;
+    private int mode;
 
-	public static void main (String[] args) {
-		if (!DEBUG) {
-			System.err.close();
-		}
+    public static void main (String[] args) {
+        if (!DEBUG) {
+            System.err.close();
+        }
 
-		if (args.length > 0) {
-			new Manning(args[0].toUpperCase());
-		} else {
-			new Manning("");
-		}
-	}
+        if (args.length > 0) {
+            new Manning(args[0].toUpperCase());
+        } else {
+            new Manning("");
+        }
+    }
 
-	public Manning (String observedTeam) {
-		this.observedTeam = observedTeam;
+    public Manning (String observedTeam) {
+        this.observedTeam = observedTeam;
 
-		terminal = new Terminal(this);
-		terminal.showLoadingMessage();
+        terminal = new Terminal(this);
+        terminal.showLoadingMessage();
 
-		manControl = new ManningController();
-		manControl.setManningAUI(this);
-		manControl.observeGame(observedTeam);
+        manControl = new ManningController();
+        manControl.setManningAUI(this);
+        manControl.observeGame(observedTeam);
 
-		if (manControl.observingGame()) {
-			mode = SINGLE;
-		} else {
-			mode = OVERVIEW;
-		}
+        if (manControl.observingGame()) {
+            mode = SINGLE;
+        } else {
+            mode = OVERVIEW;
+        }
 
         prepare();
-		manControl.run();
-	}
+        manControl.run();
+    }
 
-	ManningController getManningController () {
-		return manControl;
-	}
+    ManningController getManningController () {
+        return manControl;
+    }
 
-	void setMode (int mode) {
-		if (mode == SINGLE) {
-			mode = INPUT;
-			String team = terminal.askForTeam();
-			mode = LOADING;
-			terminal.showLoadingMessage();
-			manControl.observeGame(team);
+    void setMode (int mode) {
+        if (mode == SINGLE) {
+            mode = INPUT;
+            String team = terminal.askForTeam();
+            mode = LOADING;
+            terminal.showLoadingMessage();
+            manControl.observeGame(team);
 
-			if (manControl.observingGame()) {
-				mode = SINGLE;
-			} else {
-				mode = OVERVIEW;
-			}
-		}
+            if (manControl.observingGame()) {
+                mode = SINGLE;
+            } else {
+                mode = OVERVIEW;
+            }
+        }
 
-		this.mode = mode;
-	}
+        this.mode = mode;
+    }
 
-	int getMode () {
-		return mode;
-	}
+    int getMode () {
+        return mode;
+    }
 
-	public void update () {
-		switch (mode) {
-			case OVERVIEW:
-				GameList gameList = manControl.getGameList();
-				if (gameList != null) {
-					terminal.refreshOverview(gameList);
+    public void update () {
+        switch (mode) {
+            case OVERVIEW:
+                GameList gameList = manControl.getGameList();
+                if (gameList != null) {
+                    terminal.refreshOverview(gameList);
 				}
 				break;
 			case SINGLE:
