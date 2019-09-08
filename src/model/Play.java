@@ -46,7 +46,7 @@ public class Play {
         String right = desc.replaceAll("\\([0-9]*:[0-9]*\\) ", "");
         right = String.format("%s", right);
         right = Printer.breakLines(right, width - 12);
-        right = Printer.fit(right, width - 12, 3);
+        right = Printer.fit(right, width - 12, 5);
 
         String left;
         if (down != 0) {
@@ -55,7 +55,7 @@ public class Play {
             left = String.format("[%5s]", time);
         }
 
-        left = Printer.fit(left, 11, 3);
+        left = Printer.fit(left, 11, 5);
         String output = Printer.align(left, 1, right);
         return Printer.decorate(output, generateModifiers(current));
     }

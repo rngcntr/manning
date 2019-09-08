@@ -175,7 +175,7 @@ public class Printer {
 
     public static String breakLines (String input, int width) {
         input += "\n"; // Needed to handle last line correctly
-        input = input.replaceAll(String.format("(.{1,%d})\\s+", width), "$1\n");
-        return input;
+        input = input.replaceAll(String.format("(.{1,%d})\\s+", width-1), "$1\n");
+        return input.trim();
     }
 }

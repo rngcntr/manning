@@ -111,11 +111,23 @@ public class Team {
         return yards;
     }
 
+    public long getNaturalYards () {
+        return yards > 0 ? yards : 0;
+    }
+
     public long getPassYards () {
         return passYards;
     }
 
+    public long getNaturalPassYards () {
+        return passYards > 0 ? passYards : 0;
+    }
+
     public long getRushYards () {
         return rushYards;
+    }
+
+    public long getNaturalRushYards () {
+        return rushYards > 0 ? rushYards : 0;
     }
 }
