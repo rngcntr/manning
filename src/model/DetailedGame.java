@@ -124,18 +124,18 @@ public class DetailedGame {
 
         long maximum = Math.max(guest.getNaturalYards(), home.getNaturalYards());
 
-        String guestYardsBar = Printer.generateBar(Math.round((double) guest.getNaturalYards() / maximum * 15.0),
+        String guestYardsBar = Printer.generateBar(Math.min(guest.getNaturalYards(), Math.round((double) guest.getNaturalYards() / maximum * 15.0)),
                 15, Printer.ANSI_BACK_WHITE, generateDefaultModifiers(), false);
-        String guestPassBar = Printer.generateBar(Math.round((double) guest.getNaturalPassYards() / maximum * 15.0),
+        String guestPassBar = Printer.generateBar(Math.min(guest.getNaturalYards(), Math.round((double) guest.getNaturalPassYards() / maximum * 15.0)),
                 15, Printer.ANSI_BACK_WHITE, generateDefaultModifiers(), false);
-        String guestRushBar = Printer.generateBar(Math.round((double) guest.getNaturalRushYards() / maximum * 15.0),
+        String guestRushBar = Printer.generateBar(Math.min(guest.getNaturalYards(), Math.round((double) guest.getNaturalRushYards() / maximum * 15.0)),
                 15, Printer.ANSI_BACK_WHITE, generateDefaultModifiers(), false);
 
-        String homeYardsBar = Printer.generateBar(Math.round((double) home.getNaturalYards() / maximum * 15.0),
+        String homeYardsBar = Printer.generateBar(Math.min(home.getNaturalYards(), Math.round((double) home.getNaturalYards() / maximum * 15.0)),
                 15, Printer.ANSI_BACK_WHITE, generateDefaultModifiers(), true);
-        String homePassBar = Printer.generateBar(Math.round((double) home.getNaturalPassYards() / maximum * 15.0),
+        String homePassBar = Printer.generateBar(Math.min(home.getNaturalYards(), Math.round((double) home.getNaturalPassYards() / maximum * 15.0)),
                 15, Printer.ANSI_BACK_WHITE, generateDefaultModifiers(), true);
-        String homeRushBar = Printer.generateBar(Math.round((double) home.getNaturalRushYards() / maximum * 15.0),
+        String homeRushBar = Printer.generateBar(Math.min(home.getNaturalYards(), Math.round((double) home.getNaturalRushYards() / maximum * 15.0)),
                 15, Printer.ANSI_BACK_WHITE, generateDefaultModifiers(), true);
 
         statsBox.append(" ╔═════════════════════╤═════════╤═════════════════════╗ \n");
